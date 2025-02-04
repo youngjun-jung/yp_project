@@ -1,0 +1,47 @@
+﻿$PBExportHeader$str_userenv.srs
+$PBExportComments$사용자정보
+global type str_userenv from structure
+	string		terminal
+	string		language
+	string		sessionid
+	string		instance
+	string		entryid
+	string		isdba
+	string		nls_territory
+	string		nls_currency
+	string		nls_calendar
+	string		nls_date_format
+	string		nls_date_language
+	string		nls_sort
+	string		current_user
+	string		current_userid
+	string		session_user
+	string		session_userid
+	string		proxy_user
+	string		proxy_userid
+	string		db_domain
+	string		db_name
+	string		host
+	string		os_user
+	string		external_name
+	string		ip_address
+	string		network_protocol
+	string		bg_job_id
+	string		fg_job_id
+	string		authentication_type
+	string		today
+	string		appdir
+	string		user_id
+	string		user_nm
+	string		user_dept
+	string		user_tel
+	string		plaza_id
+	string		plaza_nm
+	string		def_menu_id
+	string		ip2
+	string		grp
+	string		path
+	string		pwd
+	string		print_path
+end type
+

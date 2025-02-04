@@ -1,0 +1,405 @@
+﻿$PBExportHeader$m_svc_dwgridstyle_popup.srm
+$PBExportComments$Popup menu
+forward
+global type m_svc_dwgridstyle_popup from menu
+end type
+type m_popup from menu within m_svc_dwgridstyle_popup
+end type
+type m_filterbyselection from menu within m_popup
+end type
+type m_filterexcludingselection from menu within m_popup
+end type
+type m_removeselectionfilter from menu within m_popup
+end type
+type m_originalfilter from menu within m_popup
+end type
+type m_dash1 from menu within m_popup
+end type
+type m_sortascending from menu within m_popup
+end type
+type m_sortdescending from menu within m_popup
+end type
+type m_originalsort from menu within m_popup
+end type
+type m_dash2 from menu within m_popup
+end type
+type m_specifysort from menu within m_popup
+end type
+type m_specifyfilter from menu within m_popup
+end type
+type m_dash3 from menu within m_popup
+end type
+type m_print from menu within m_popup
+end type
+type m_saveas from menu within m_popup
+end type
+type m_popup from menu within m_svc_dwgridstyle_popup
+m_filterbyselection m_filterbyselection
+m_filterexcludingselection m_filterexcludingselection
+m_removeselectionfilter m_removeselectionfilter
+m_originalfilter m_originalfilter
+m_dash1 m_dash1
+m_sortascending m_sortascending
+m_sortdescending m_sortdescending
+m_originalsort m_originalsort
+m_dash2 m_dash2
+m_specifysort m_specifysort
+m_specifyfilter m_specifyfilter
+m_dash3 m_dash3
+m_print m_print
+m_saveas m_saveas
+end type
+global type m_svc_dwgridstyle_popup from menu
+m_popup m_popup
+end type
+end forward
+
+global type m_svc_dwgridstyle_popup from menu
+m_popup m_popup
+end type
+global m_svc_dwgridstyle_popup m_svc_dwgridstyle_popup
+
+type variables
+n_svc_dw_gridstyle iSrv_GridStyle
+Long il_row
+String is_colname
+
+end variables
+
+forward prototypes
+public subroutine mf_register (ref n_svc_dw_gridstyle asrv_sort, long al_row, string as_colname)
+end prototypes
+
+public subroutine mf_register (ref n_svc_dw_gridstyle asrv_sort, long al_row, string as_colname);// save reference to datawindow
+iSrv_GridStyle = aSrv_sort
+
+il_row = al_row
+is_colname = as_colname
+
+// disable options if not on a specific row/column
+If al_row = 0 Or as_colname = "datawindow" Then
+	m_popup.m_filterbyselection.Visible = False
+	m_popup.m_filterexcludingselection.Visible = False
+	m_popup.m_removeselectionfilter.Visible = False
+	m_popup.m_sortascending.Visible = False
+	m_popup.m_sortdescending.Visible = False
+End If
+
+// disable SaveAs if no rows
+If aSrv_sort.idw_client.RowCount() = 0 Then
+	m_popup.m_dash3.Visible = False
+	m_popup.m_saveas.Visible = False
+End If
+
+end subroutine
+
+on m_svc_dwgridstyle_popup.create
+m_svc_dwgridstyle_popup=this
+call super::create
+this.text = "m_grid_popup"
+this.m_popup=create m_popup
+this.Item[UpperBound(this.Item)+1]=this.m_popup
+end on
+
+on m_svc_dwgridstyle_popup.destroy
+call super::destroy
+destroy(this.m_popup)
+end on
+
+type m_popup from menu within m_svc_dwgridstyle_popup
+m_filterbyselection m_filterbyselection
+m_filterexcludingselection m_filterexcludingselection
+m_removeselectionfilter m_removeselectionfilter
+m_originalfilter m_originalfilter
+m_dash1 m_dash1
+m_sortascending m_sortascending
+m_sortdescending m_sortdescending
+m_originalsort m_originalsort
+m_dash2 m_dash2
+m_specifysort m_specifysort
+m_specifyfilter m_specifyfilter
+m_dash3 m_dash3
+m_print m_print
+m_saveas m_saveas
+end type
+
+on m_popup.create
+call super::create
+this.text = "Popup"
+this.m_filterbyselection=create m_filterbyselection
+this.m_filterexcludingselection=create m_filterexcludingselection
+this.m_removeselectionfilter=create m_removeselectionfilter
+this.m_originalfilter=create m_originalfilter
+this.m_dash1=create m_dash1
+this.m_sortascending=create m_sortascending
+this.m_sortdescending=create m_sortdescending
+this.m_originalsort=create m_originalsort
+this.m_dash2=create m_dash2
+this.m_specifysort=create m_specifysort
+this.m_specifyfilter=create m_specifyfilter
+this.m_dash3=create m_dash3
+this.m_print=create m_print
+this.m_saveas=create m_saveas
+this.Item[UpperBound(this.Item)+1]=this.m_filterbyselection
+this.Item[UpperBound(this.Item)+1]=this.m_filterexcludingselection
+this.Item[UpperBound(this.Item)+1]=this.m_removeselectionfilter
+this.Item[UpperBound(this.Item)+1]=this.m_originalfilter
+this.Item[UpperBound(this.Item)+1]=this.m_dash1
+this.Item[UpperBound(this.Item)+1]=this.m_sortascending
+this.Item[UpperBound(this.Item)+1]=this.m_sortdescending
+this.Item[UpperBound(this.Item)+1]=this.m_originalsort
+this.Item[UpperBound(this.Item)+1]=this.m_dash2
+this.Item[UpperBound(this.Item)+1]=this.m_specifysort
+this.Item[UpperBound(this.Item)+1]=this.m_specifyfilter
+this.Item[UpperBound(this.Item)+1]=this.m_dash3
+this.Item[UpperBound(this.Item)+1]=this.m_print
+this.Item[UpperBound(this.Item)+1]=this.m_saveas
+end on
+
+on m_popup.destroy
+call super::destroy
+destroy(this.m_filterbyselection)
+destroy(this.m_filterexcludingselection)
+destroy(this.m_removeselectionfilter)
+destroy(this.m_originalfilter)
+destroy(this.m_dash1)
+destroy(this.m_sortascending)
+destroy(this.m_sortdescending)
+destroy(this.m_originalsort)
+destroy(this.m_dash2)
+destroy(this.m_specifysort)
+destroy(this.m_specifyfilter)
+destroy(this.m_dash3)
+destroy(this.m_print)
+destroy(this.m_saveas)
+end on
+
+type m_filterbyselection from menu within m_popup
+event destroy ( )
+end type
+
+on m_filterbyselection.destroy
+call super::destroy
+end on
+
+on m_filterbyselection.create
+call super::create
+this.text = "Filter By Selection"
+end on
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+type m_filterexcludingselection from menu within m_popup
+event destroy ( )
+end type
+
+on m_filterexcludingselection.destroy
+call super::destroy
+end on
+
+on m_filterexcludingselection.create
+call super::create
+this.text = "Filter Excluding Selection"
+end on
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+type m_removeselectionfilter from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_removeselectionfilter.create
+call super::create
+this.text = "Remove Selection Filter"
+end on
+
+on m_removeselectionfilter.destroy
+call super::destroy
+end on
+
+type m_originalfilter from menu within m_popup
+event destroy ( )
+end type
+
+on m_originalfilter.destroy
+call super::destroy
+end on
+
+on m_originalfilter.create
+call super::create
+this.text = "Original Filter"
+end on
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+type m_dash1 from menu within m_popup
+event destroy ( )
+end type
+
+on m_dash1.destroy
+call super::destroy
+end on
+
+on m_dash1.create
+call super::create
+this.text = "-"
+end on
+
+type m_sortascending from menu within m_popup
+event destroy ( )
+end type
+
+on m_sortascending.destroy
+call super::destroy
+end on
+
+on m_sortascending.create
+call super::create
+this.text = "Sort Ascending"
+end on
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+type m_sortdescending from menu within m_popup
+event destroy ( )
+end type
+
+on m_sortdescending.destroy
+call super::destroy
+end on
+
+on m_sortdescending.create
+call super::create
+this.text = "Sort Descending"
+end on
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+type m_originalsort from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_originalsort.create
+call super::create
+this.text = "Original Sort"
+end on
+
+on m_originalsort.destroy
+call super::destroy
+end on
+
+type m_dash2 from menu within m_popup
+end type
+
+on m_dash2.create
+call super::create
+this.text = "-"
+end on
+
+on m_dash2.destroy
+call super::destroy
+end on
+
+type m_specifysort from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_specifysort.create
+call super::create
+this.text = "Specify Sort..."
+end on
+
+on m_specifysort.destroy
+call super::destroy
+end on
+
+type m_specifyfilter from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_specifyfilter.create
+call super::create
+this.text = "Specify Filter..."
+end on
+
+on m_specifyfilter.destroy
+call super::destroy
+end on
+
+type m_dash3 from menu within m_popup
+end type
+
+on m_dash3.create
+call super::create
+this.text = "-"
+end on
+
+on m_dash3.destroy
+call super::destroy
+end on
+
+type m_print from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_print.create
+call super::create
+this.text = "Print"
+end on
+
+on m_print.destroy
+call super::destroy
+end on
+
+type m_saveas from menu within m_popup
+end type
+
+event clicked;// process the selection
+isrv_gridstyle.Post Dynamic of_Process_Popup(this.ClassName(), il_row, is_colname)
+
+end event
+
+on m_saveas.create
+call super::create
+this.text = "Save As..."
+end on
+
+on m_saveas.destroy
+call super::destroy
+end on
+

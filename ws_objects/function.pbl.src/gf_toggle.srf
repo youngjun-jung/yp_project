@@ -1,0 +1,28 @@
+﻿$PBExportHeader$gf_toggle.srf
+$PBExportComments$한영전환
+global type gf_toggle from function_object
+end type
+
+forward prototypes
+global subroutine gf_toggle (long al_handle, character ac_section)
+end prototypes
+
+global subroutine gf_toggle (long al_handle, character ac_section);Long ll_himc
+
+ll_himc = ImmGetContext(al_handle)
+
+CHOOSE CASE ac_section
+		
+	CASE 'K'
+		
+		ImmSetConversionStatus(ll_himc, 1, 0)
+	
+	CASE 'E'
+		
+		ImmSetConversionStatus(ll_himc, 0, 0)
+		
+END CHOOSE
+
+ImmReleaseContext(al_handle, ll_himc)
+end subroutine
+

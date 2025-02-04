@@ -1,0 +1,20 @@
+﻿$PBExportHeader$gf_chk_null.srf
+$PBExportComments$Null Check
+global type gf_chk_null from function_object
+end type
+
+forward prototypes
+global function boolean gf_chk_null (string as_value)
+end prototypes
+
+global function boolean gf_chk_null (string as_value);IF IsNull(as_value) OR Trim(as_value) = '' THEN
+
+	RETURN TRUE
+
+ELSE
+
+	RETURN FALSE
+
+END IF
+end function
+

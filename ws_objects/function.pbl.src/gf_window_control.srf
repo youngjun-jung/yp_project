@@ -1,0 +1,108 @@
+﻿$PBExportHeader$gf_window_control.srf
+$PBExportComments$윈도우 Event 발생시 제어 함수
+global type gf_window_control from function_object
+end type
+
+forward prototypes
+global function integer gf_window_control (string as_status, string as_class, string as_title)
+end prototypes
+
+global function integer gf_window_control (string as_status, string as_class, string as_title);Long   ll_tabpos, ll_select, i
+String ls_tabtag
+
+u_tabpage uo_tabpage
+Window    lw_sheet
+
+lw_sheet = w_mainmdi.GetActiveSheet()
+
+CHOOSE CASE Lower(as_status)
+		
+	CASE 'activate'
+		
+		// Menu Tabpage
+		
+		ll_tabpos = UpperBound(w_mainmdi.uo_tab.Control)
+		
+		IF ll_tabpos < 1 THEN RETURN -1
+		
+		FOR i = 1 TO ll_tabpos
+			
+			ls_tabtag = w_mainmdi.uo_tab.Control[i].Tag
+			
+			IF ls_tabtag = as_class THEN
+				w_mainmdi.uo_tab.SelectedTab = i
+				EXIT
+			END IF
+			
+		NEXT
+
+		// Set Menu Right
+		
+		// Set Microhelp
+		
+		//gf_microhelp('windowid', as_class)
+		
+	CASE 'open'
+		
+		// Menu Tabpage
+
+		w_mainmdi.uo_tab.OpenTab(uo_tabpage, 0)
+		
+		ll_tabpos = UpperBound(w_mainmdi.uo_tab.Control)
+		
+		IF ll_tabpos < 1 THEN RETURN -1
+		
+		w_mainmdi.uo_tab.Control[ll_tabpos].Text        = as_title
+		w_mainmdi.uo_tab.Control[ll_tabpos].Tag         = as_class
+		w_mainmdi.uo_tab.Control[ll_tabpos].PictureName = '.\res\Favorite.ico'
+		
+		w_mainmdi.uo_tab.SelectedTab = ll_tabpos
+		
+		// Set Microhelp
+
+		//gf_microhelp('status'  , as_title)		
+		//gf_microhelp('windowid', as_class)
+		
+		// Mdiframe Flash
+				
+//		w_mainmdi.ole_intro.SetPosition(ToBottom!)
+
+//		aw_window.Move(0, 0)
+		
+	CASE 'closequery'
+		
+	CASE 'close'
+		
+		// Menu Tabpage
+
+		ll_select  = w_mainmdi.uo_tab.SelectedTab
+		
+		IF UpperBound(w_mainmdi.uo_tab.Control) = 0 THEN RETURN -1
+		
+		IF ll_select < 1 THEN RETURN -1
+		
+		w_mainmdi.uo_tab.CloseTab(w_mainmdi.uo_tab.Control[ll_select])
+		
+		ll_tabpos = UpperBound(w_mainmdi.uo_tab.Control)
+		
+		IF ll_select > ll_tabpos THEN	ll_select -= 1
+		
+		IF ll_select = 0 THEN
+//			w_mainmdi.uo_tab.Visible = FALSE
+		ELSE
+			w_mainmdi.uo_tab.SelectedTab = ll_select
+		END IF
+		
+		// Mdiframe Init
+		
+		IF lw_sheet.ClassName() = as_class THEN
+			//w_mainmdi.ole_intro.SetPosition(ToTop!)
+			//gf_microhelp('status'  , "하이플러스카드 정산통계시스템")
+			//gf_microhelp('windowid', "HiplusCard")
+		END IF
+		
+END CHOOSE
+
+RETURN 1
+end function
+

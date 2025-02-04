@@ -1,0 +1,73 @@
+﻿$PBExportHeader$gf_api_call.srf
+$PBExportComments$Null Check
+global type gf_api_call from function_object
+end type
+
+forward prototypes
+global function string gf_api_call (string as_uri, string as_gubun, string as_body)
+end prototypes
+
+global function string gf_api_call (string as_uri, string as_gubun, string as_body);// 변수 선언
+String ls_url, ls_response
+Integer li_status
+Long ll_root, ll_count, ll_child, ll_index
+boolean lb_success
+RESTClient lnv_rest
+
+// RESTClient 객체 생성
+lnv_rest = CREATE RESTClient
+
+// API URL 설정
+ls_url = as_uri
+
+// 인증 키 설정 (Authorization 헤더에 추가)
+lnv_rest.SetRequestHeader("x-api-key", "YP")
+
+// Content-Type 헤더 설정 (JSON 데이터 전송)
+lnv_rest.SetRequestHeader("Content-Type", "application/json")
+
+IF as_gubun = 'GET' THEN
+
+    ls_url = ls_url + '?' + as_body
+	 
+	//messagebox("ls_url", ls_url) 
+
+	// GET 요청 실행
+	li_status = lnv_rest.SendGetRequest(ls_url, ls_response)
+	
+ELSEIF as_gubun = 'POST' THEN	
+	
+	// POST 요청 실행
+	li_status = lnv_rest.SendPostRequest(ls_url, as_body, ls_response)
+	
+ELSEIF as_gubun = 'PUT' THEN	
+	
+	// PUT 요청 실행
+	li_status = lnv_rest.SendputRequest(ls_url, as_body, ls_response)
+
+ELSEIF as_gubun = 'DELETE' THEN	
+	
+	// DELETE 요청 실행
+	li_status = lnv_rest.SendDeleteRequest(ls_url, as_body, ls_response)
+
+ELSEIF as_gubun = 'PATCH' THEN	
+	
+	// PATCH 요청 실행
+	li_status = lnv_rest.SendpatchRequest(ls_url, as_body, ls_response)
+	
+END IF;
+	
+
+// 상태 코드 확인 및 결과 처리
+IF li_status <> 1 THEN
+        MessageBox("Error", "[서버오류]Failed to call the API. Status code: " + String(lnv_rest.GetResponseStatusCode()))
+	   ls_response = 'FAIL'
+END IF
+
+// RESTClient 객체 해제
+DESTROY lnv_rest
+
+RETURN ls_response
+
+end function
+

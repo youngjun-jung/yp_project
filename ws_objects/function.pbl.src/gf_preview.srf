@@ -1,0 +1,27 @@
+﻿$PBExportHeader$gf_preview.srf
+global type gf_preview from function_object
+end type
+
+forward prototypes
+global subroutine gf_preview (string as_url)
+end prototypes
+
+global subroutine gf_preview (string as_url);OLEObject IE
+Inet linet_base
+
+Destroy IE
+
+IE = CREATE OLEObject
+IE.ConnectToNewObject("InternetExplorer.Application")
+
+IE.visible = true
+IE.navigate(as_url)
+DO WHILE IE.busy 
+setpointer(hourglass!) 
+yield() 
+LOOP
+Destroy IE	
+			
+run("explore" + as_url) 
+end subroutine
+

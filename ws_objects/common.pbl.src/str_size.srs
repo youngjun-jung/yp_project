@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_size.srs
+$PBExportComments$Resize Structure
+global type str_size from structure
+	long		x
+	long		y
+	long		width
+	long		height
+end type
+

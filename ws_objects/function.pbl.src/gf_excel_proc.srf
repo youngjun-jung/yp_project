@@ -1,0 +1,44 @@
+﻿$PBExportHeader$gf_excel_proc.srf
+global type gf_excel_proc from function_object
+end type
+
+forward prototypes
+global function boolean gf_excel_proc (datawindow as_dw)
+end prototypes
+
+global function boolean gf_excel_proc (datawindow as_dw);Long ll_return, ll_rtn, ll_rowcnt
+String ls_file
+n_upgrade u_upgrade
+
+ll_rowcnt = as_dw.RowCount() /* data rows 수 */
+
+IF ll_rowcnt = 0 THEN
+	MessageBox("확인", "엑셀로 변환 할 자료가 없습니다.")
+	RETURN FALSE
+END IF
+
+ll_rtn = GetFileSaveName ("엑셀파일저장", gstr_userenv.print_path, ls_file, "XLS", "엑셀파일(*.xls),*.xls")
+
+IF ll_rtn = 0 THEN RETURN FALSE
+
+IF FileExists(gstr_userenv.print_path) THEN
+
+	ll_rtn = MessageBox("확인", "이미 존재하는 파일입니다. 변경하시겠습니까?", Question!, YesNo!, 1)
+
+	IF ll_rtn = 2 THEN RETURN FALSE
+
+	FileDelete(gstr_userenv.print_path)
+
+END IF
+
+ll_return = as_dw.saveas(gstr_userenv.print_path, EXCEL5!, TRUE)
+
+if ll_return <> 1 then
+	messagebox("Error", "파일 저장 실패")
+else
+	ChangeDirectory(gstr_userenv.path)
+	messagebox("Success", "파일 저장 성공")
+end if
+
+end function
+

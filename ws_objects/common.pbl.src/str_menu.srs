@@ -1,0 +1,11 @@
+﻿$PBExportHeader$str_menu.srs
+global type str_menu from structure
+	string		userid[]
+	string		p_menuname[]
+	string		menuname[]
+	string		p_menuid[]
+	string		menuid[]
+	string		screen_id[]
+	string		menu_fun[]
+end type
+

@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_popup.srs
+$PBExportComments$Popup Structure
+global type str_popup from structure
+	string		table
+	string		where
+	string		data
+	string		rvalue[]
+	long		cnt
+	datawindow		dw
+	long		lvalue[]
+end type
+

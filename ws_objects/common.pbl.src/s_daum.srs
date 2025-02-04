@@ -1,0 +1,7 @@
+﻿$PBExportHeader$s_daum.srs
+global type s_daum from structure
+	string		sle2
+	string		sle3
+	string		sle1
+end type
+

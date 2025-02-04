@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_shared.srs
+global type str_shared from structure
+	long		window_handle
+	long		event_handle
+	long		event_handle1
+	string		reply
+	long		num
+	long		event_handle2
+end type
+

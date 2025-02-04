@@ -1,0 +1,13 @@
+﻿$PBExportHeader$gf_print_open.srf
+global type gf_print_open from function_object
+end type
+
+forward prototypes
+global function boolean gf_print_open (string as_url)
+end prototypes
+
+global function boolean gf_print_open (string as_url);openwithparm(w_print_open, as_url)
+
+return true
+end function
+

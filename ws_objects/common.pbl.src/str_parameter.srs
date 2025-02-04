@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_parameter.srs
+$PBExportComments$Parameter
+global type str_parameter from structure
+	window		window
+	datawindow		datawindow
+	long		longvalue[]
+	string		strvalue[]
+end type
+
