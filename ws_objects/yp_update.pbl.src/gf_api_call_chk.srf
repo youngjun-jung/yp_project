@@ -1,0 +1,41 @@
+﻿$PBExportHeader$gf_api_call_chk.srf
+$PBExportComments$Null Check
+global type gf_api_call_chk from function_object
+end type
+
+forward prototypes
+global function boolean gf_api_call_chk (string as_json, string as_gubun)
+end prototypes
+
+global function boolean gf_api_call_chk (string as_json, string as_gubun);// 변수 선언
+String ls_response, ls_result
+Long ll_root, ll_count
+boolean lb_success
+RESTClient lnv_rest
+JSONParser lnv_json
+
+/*
+ls_response = Replace(as_json, Pos(as_json, "["), Len("["), "")
+ls_response = Replace(as_json, Pos(as_json, "]"), Len("]"), "")
+*/
+
+ls_response = as_json
+
+// JSONParser 객체 생성
+lnv_json = CREATE JSONParser
+
+ls_result = lnv_json.LoadString(ls_response)
+ll_root = lnv_json.getrootitem( )  
+ll_count = lnv_json.getchildcount( ll_root )  
+
+lb_success = lnv_json.getitemboolean( ll_root, "success")  
+
+DESTROY lnv_json
+
+RETURN lb_success
+
+
+
+
+end function
+
