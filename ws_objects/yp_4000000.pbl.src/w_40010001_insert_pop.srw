@@ -209,7 +209,7 @@ ls_username = dw_1.object.username[1]
 ls_passwd = dw_1.object.passwd[1]
 ls_groupid = dw_1.object.groupid[1]
 
-if gf_chk_null(ls_userid) or gf_chk_null(ls_userid) or gf_chk_null(ls_userid) or gf_chk_null(ls_userid) then
+if gf_chk_null(ls_userid) or gf_chk_null(ls_username) or gf_chk_null(ls_passwd) or gf_chk_null(ls_groupid) then
 	MessageBox("확인", "정보가 누락되었습니다.")
 	return
 end if

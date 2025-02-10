@@ -12,6 +12,7 @@ String ls_url, ls_response
 Integer li_status
 Long ll_root, ll_count, ll_child, ll_index
 boolean lb_success
+Blob lb_data
 RESTClient lnv_rest
 
 // RESTClient 객체 생성

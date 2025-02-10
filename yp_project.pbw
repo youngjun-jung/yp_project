@@ -1,6 +1,7 @@
 Save Format v3.0(19990112)
 @begin Targets
  0 "yp_project.pbt";
+ 1 "yp_update.pbt";
 @end;
 DefaultTarget "yp_project.pbt";
 DefaultExportEncode "UTF-8";

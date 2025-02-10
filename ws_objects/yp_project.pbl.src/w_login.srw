@@ -14,7 +14,7 @@ global type w_login from window
 integer width = 2779
 integer height = 2968
 boolean titlebar = true
-string title = "영풍실적관리시스템"
+string title = "사업 및 원가분석 시스템"
 boolean controlmenu = true
 long backcolor = 134217730
 string icon = ".\res\credit.ico"

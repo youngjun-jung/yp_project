@@ -34,6 +34,7 @@ END IF
 ll_return = as_dw.saveas(gstr_userenv.print_path, EXCEL5!, TRUE)
 
 if ll_return <> 1 then
+	ChangeDirectory(gstr_userenv.path)
 	messagebox("Error", "파일 저장 실패")
 else
 	ChangeDirectory(gstr_userenv.path)

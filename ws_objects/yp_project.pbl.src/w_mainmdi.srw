@@ -24,7 +24,7 @@ global type w_mainmdi from window
 integer width = 4224
 integer height = 1984
 boolean titlebar = true
-string title = "영풍실적관리시스템"
+string title = "사업 및 원가분석 시스템"
 string menuname = "m_mainmdi"
 boolean controlmenu = true
 boolean minbox = true
@@ -533,6 +533,62 @@ integer height = 164
 string picturename = ".\res\yp.png"
 boolean focusrectangle = false
 end type
+
+event clicked;// 변수 선언
+HTTPClient lnv_http
+Blob lblb_response
+Integer li_status, li_FileNum
+String ls_url, ls_filePath, ls_fileName, ls_ver
+
+ls_fileName = 'sample.txt'
+ls_ver = 'v1.0'
+
+// REST API URL 설정 (다운로드할 파일의 엔드포인트)
+ls_url = "http://localhost:3000/api/update?fileName=" + ls_fileName
+
+// 로컬에 저장할 파일 경로
+ls_filePath = "d:\downloads\" + ls_fileName
+
+// HTTPClient 객체 생성
+lnv_http = Create HTTPClient
+
+// 인증 키 설정 (Authorization 헤더에 추가)
+lnv_http.SetRequestHeader("x-api-key", "YP")
+
+// GET 요청 보내기
+li_status = lnv_http.SendRequest("GET", ls_url)
+
+// 상태 코드 확인 및 처리
+If li_status = 1 Then // 요청 성공 여부 확인
+    If lnv_http.GetResponseStatusCode() = 200 Then // HTTP 상태 코드가 200인지 확인
+        // 응답 데이터를 Blob으로 가져오기
+        lnv_http.GetResponseBody(lblb_response)
+
+		// 파일 열기 (스트림 모드, 쓰기 권한)
+		li_FileNum = FileOpen(ls_FilePath, StreamMode!, Write!, LockWrite!, Replace!)
+		
+		If li_FileNum < 0 Then
+			 MessageBox("오류", "파일을 열 수 없습니다: " + ls_FilePath)
+			 Return
+		End If  
+
+        // Blob 데이터를 로컬 파일로 저장
+        FileWriteEx(li_FileNum, lblb_response)
+        MessageBox("성공", "파일이 성공적으로 다운로드되었습니다: " + ls_filePath)
+    Else
+        MessageBox("오류", "HTTP 상태 코드: " + String(lnv_http.GetResponseStatusCode()))
+    End If
+Else
+    MessageBox("오류", "GET 요청 실패")
+End If
+
+FileClose(li_FileNum)
+
+// HTTPClient 객체 제거
+Destroy lnv_http
+
+
+end event
 
 type dw_1 from datawindow within w_mainmdi
 boolean visible = false
