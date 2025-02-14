@@ -86,12 +86,13 @@ open(w_login)
 
 end event
 
-event idle;
+event idle;/*
 gl_width = 0
 		
 open(w_login)
 
 close(w_mainmdi)
+*/
 end event
 
 event systemerror;String ls_title, ls_message

@@ -307,7 +307,7 @@ dw_1.SetRedraw(false)
 
 w_mainmdi.Width = 7195
 w_mainmdi.Height = 3800
-windowstate = maximized!
+//windowstate = maximized!
 
 //tv_menu.settransobject(sqlca)
 //tv_menu.retrieve('1' + gstr_userenv.grp)
@@ -543,7 +543,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type dw_menu from datawindow within w_mainmdi
-integer x = 1166
+integer x = 1157
 integer y = 148
 integer width = 2551
 integer height = 140
