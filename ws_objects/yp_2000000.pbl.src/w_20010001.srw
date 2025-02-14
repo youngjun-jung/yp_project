@@ -24,7 +24,7 @@ sle_id.x = dw_1.x
 sle_id.y = dw_1.y + dw_1.height + 60
 end event
 
-event ue_retrieve;call super::ue_retrieve;String ls_result, ls_error, ls_userid, ls_url, ls_date, ls_cur_unit, ls_ttb, ls_tts, ls_deal_bas_r
+event ue_retrieve;call super::ue_retrieve;String ls_result, ls_result_ori, ls_body, ls_error, ls_userid, ls_url, ls_date, ls_cur_unit, ls_ttb, ls_tts, ls_deal_bas_r
 String ls_bkpr, ls_yy_efee_r, ls_ten_dd_efee_r, ls_kftc_bkpr, ls_kftc_deal_bas_r, ls_cur_nm
 Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
 Boolean lb_result
@@ -47,9 +47,17 @@ li_status = lnv_rest.SendGetRequest(ls_url, ls_result)
 
 DESTROY lnv_rest
 
-IF gf_chk_null(ls_result) THEN
+IF gf_chk_null(ls_result) OR li_status <> 1 THEN
+	MESSAGEBOX("오류", "조회중 오류가 발생했습니다.")
 	RETURN false
 END IF;
+
+IF ls_result = '[]' THEN
+	MESSAGEBOX("확인", "조회 내역이 없습니다.")
+	RETURN false
+END IF;
+
+ls_result_ori = ls_result
 
 ls_result = '{"data":' + ls_result + '}'
 
@@ -122,6 +130,25 @@ for ll_index = 1 to ll_count
 next  
 		
 DESTROY lnv_json
+
+// RESTClient 객체 생성
+lnv_rest = CREATE RESTClient
+
+//ls_body = ls_result_ori
+
+ls_body = '{"checkdate":"' + ls_date + '", "source":"KOR",' + '"data":' + ls_result_ori + '}'
+
+//messagebox("ls_body", ls_body)
+
+ls_result = gf_api_call("http://localhost:3000/api/exchange", 'POST', ls_body)
+
+//messagebox("ls_result", ls_result)
+
+IF ls_result = 'FAIL' THEN
+	RETURN false
+END IF;
+
+DESTROY lnv_rest
 
 RETURN true
 end event

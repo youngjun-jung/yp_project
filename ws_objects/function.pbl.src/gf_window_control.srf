@@ -94,13 +94,11 @@ CHOOSE CASE Lower(as_status)
 		END IF
 		
 		// Mdiframe Init
-		
+		/*
 		IF lw_sheet.ClassName() = as_class THEN
 			//w_mainmdi.ole_intro.SetPosition(ToTop!)
-			//gf_microhelp('status'  , "하이플러스카드 정산통계시스템")
-			//gf_microhelp('windowid', "HiplusCard")
 		END IF
-		
+		*/
 END CHOOSE
 
 RETURN 1

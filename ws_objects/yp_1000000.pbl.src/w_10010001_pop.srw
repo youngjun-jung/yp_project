@@ -24,8 +24,9 @@ lstr_popup = message.powerobjectparm
 dw_cdt.object.frdate[1] = lstr_popup.rvalue[1]
 dw_cdt.object.todate[1] = lstr_popup.rvalue[2]
 dw_cdt.object.name_1[1] = lstr_popup.rvalue[3]
+dw_cdt.object.name_2[1] = lstr_popup.rvalue[4]
 
-messagebox("lstr_popup.rvalue[3]", lstr_popup.rvalue[3])
+//messagebox("lstr_popup.rvalue[3]", lstr_popup.rvalue[3])
 
 event ue_open()
 end event
@@ -44,9 +45,9 @@ ls_name = dw_cdt.object.name_1[1]
 // DataWindow 초기화
 dw_1.Reset()
 
-ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate + '&codenm=' + ls_name
+ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate + '&mcode=' + ls_name
 
-messagebox("ls_body", ls_body)
+//messagebox("ls_body", ls_body)
 
 ls_result = gf_api_call("http://localhost:3000/api/saleledger", 'GET', ls_body)
 

@@ -550,6 +550,7 @@ lstr_parameter.LongValue[1] = al_row
 lstr_parameter.strValue [1] = Left(as_tag, Pos(as_tag, '/') - 1)
 lstr_parameter.strValue [2] =  Mid(as_tag, Pos(as_tag, '/') + 1)
 lstr_parameter.strValue [3] = as_column
+
 lstr_parameter.strValue [4] = GetItemString(al_row, as_column)
 
 CHOOSE CASE Left(lstr_parameter.strValue[1], 4)

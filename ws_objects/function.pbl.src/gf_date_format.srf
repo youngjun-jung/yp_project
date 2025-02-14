@@ -1,0 +1,19 @@
+﻿$PBExportHeader$gf_date_format.srf
+global type gf_date_format from function_object
+end type
+
+forward prototypes
+global function string gf_date_format (string as_date, string as_gubun)
+end prototypes
+
+global function string gf_date_format (string as_date, string as_gubun);String ls_return
+
+if as_gubun = '0' then
+	ls_return = mid(as_date, 1, 4) + '.' + mid(as_date, 5, 2) + '.' + mid(as_date, 7, 2)
+elseif as_gubun = '1' then
+	ls_return = mid(as_date, 1, 4) + mid(as_date, 6, 2) + mid(as_date, 9, 2)
+end if
+
+return ls_return
+end function
+
