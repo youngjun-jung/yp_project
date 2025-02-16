@@ -334,38 +334,63 @@ string facename = "Tahoma"
 string text = "none"
 end type
 
-event clicked;OLEObject Sap_OLE 
-OLEObject SapConn
+event clicked;OLEObject oleSapConn, oleSapFunc
 
 int li_ret
 
-Sap_OLE = CREATE OLEObject // OLE 생성 
-li_ret = Sap_OLE.ConnectToNewObject("Sap.Functions.Unicode") //A SAP 컴포넌트와 연계
+oleSapConn = CREATE OLEObject // OLE 생성 
+li_ret = oleSapConn.ConnectToNewObject("Sap.Functions.Unicode") //A SAP 컴포넌트와 연계
 if li_Ret <> 0 then
    Messagebox("확인", "SAP연결실패..")
    return 
 end if
 
-messagebox("li_ret", li_ret)
+//messagebox("li_ret", li_ret)
 
 //Production server (PRD)
-SapConn = Sap_OLE.connection // SAP CONNECTION OLE 사용 
+oleSapConn = oleSapConn.connection // SAP CONNECTION OLE 사용 
 
 /* 운영서버 */
-SapConn.ApplicationServer = "211.35.173.42" // SERVER IP -> 
-SapConn.SystemNumber = 00 // 디폴트 0 
-SapConn.user = "IFGW01" // SAP 사용자명 (실제 sap id) 
-SapConn.Password = "123456" // SAP 페스워드 (실제 password) 
-SapConn.Client = "700" // CLIENT 번호 
-SapConn.Language = "KO" // LANGUAGE "KO" 
+oleSapConn.ApplicationServer = "211.35.173.42" // SERVER IP -> 
+oleSapConn.SystemNumber = 00 // 디폴트 0 
+oleSapConn.user = "IFGW01" // SAP 사용자명 (실제 sap id) 
+oleSapConn.Password = "123456" // SAP 페스워드 (실제 password) 
+oleSapConn.Client = "700" // CLIENT 번호 
+oleSapConn.Language = "KO" // LANGUAGE "KO" 
 
-If SapConn.logon(1, TRUE) <> True Then // LOGON 
+If oleSapConn.logon(1, TRUE) <> True Then // LOGON 
    messagebox("SAP : ApplicationServer 로그인 에러 "," SAP ApplicationServer 로그인 에러입니다.") 
    setpointer(ARROW!) 
-
-else
-  messagebox("SAP : ApplicationServer 로그인 성공 "," SAP ApplicationServer 로그인 ") 
 End if 
+
+// RFC 함수 호출 준비
+oleSapFunc = oleSapConn.Add("ZMM_WEIGH_001")  // 호출할 RFC 이름 입력
+
+IF IsNull(oleSapFunc) THEN
+    MessageBox("Error", "RFC 함수 로드 실패")
+    RETURN
+END IF
+
+MessageBox("Success", "RFC 함수 로드 성공")
+
+// 파라미터 설정 (필요에 따라 수정)
+oleSapFunc.Exports("I_KUNNR").Value = "1111"     // Export 파라미터 설정
+oleSapFunc.Exports("I_NAME1").Value = "2222"
+
+// RFC 호출 실행
+IF oleSapFunc.Call() = FALSE THEN
+    MessageBox("Error", "RFC 호출 실패")
+    RETURN
+END IF
+
+// 결과 처리 (Import 파라미터 또는 테이블 데이터 읽기)
+string ls_result
+ls_result = oleSapFunc.Imports("KUNNR").Value  // Import 파라미터 값 가져오기
+MessageBox("Result", ls_result)
+
+// 종료 및 정리
+DESTROY oleSapConn
+
 
 Return 
 
