@@ -6,17 +6,31 @@ type cb_1 from commandbutton within w_10020002
 end type
 type cb_3 from commandbutton within w_10020002
 end type
+type cb_2 from commandbutton within w_10020002
+end type
+type cb_4 from commandbutton within w_10020002
+end type
+type cb_5 from commandbutton within w_10020002
+end type
+type cb_6 from commandbutton within w_10020002
+end type
 end forward
 
 global type w_10020002 from w_ancestor_03
 integer height = 3024
 cb_1 cb_1
 cb_3 cb_3
+cb_2 cb_2
+cb_4 cb_4
+cb_5 cb_5
+cb_6 cb_6
 end type
 global w_10020002 w_10020002
 
 type variables
 Long il_chk_cnt
+Oleobject pbobject, pblogin, ltable, ltablerows, addrows
+
 end variables
 
 on w_10020002.create
@@ -24,15 +38,27 @@ int iCurrent
 call super::create
 this.cb_1=create cb_1
 this.cb_3=create cb_3
+this.cb_2=create cb_2
+this.cb_4=create cb_4
+this.cb_5=create cb_5
+this.cb_6=create cb_6
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.cb_1
 this.Control[iCurrent+2]=this.cb_3
+this.Control[iCurrent+3]=this.cb_2
+this.Control[iCurrent+4]=this.cb_4
+this.Control[iCurrent+5]=this.cb_5
+this.Control[iCurrent+6]=this.cb_6
 end on
 
 on w_10020002.destroy
 call super::destroy
 destroy(this.cb_1)
 destroy(this.cb_3)
+destroy(this.cb_2)
+destroy(this.cb_4)
+destroy(this.cb_5)
+destroy(this.cb_6)
 end on
 
 event open;call super::open;Date ld_today, ld_frdate
@@ -267,8 +293,8 @@ type st_1 from w_ancestor_03`st_1 within w_10020002
 end type
 
 type cb_1 from commandbutton within w_10020002
-integer x = 1893
-integer y = 112
+integer x = 2249
+integer y = 96
 integer width = 457
 integer height = 132
 integer taborder = 10
@@ -284,6 +310,7 @@ end type
 
 event clicked;OLEObject oleSapRfc, oleFunction, oleTable
 integer li_rc
+boolean lb_result
 
 // OLE 객체 생성 및 RFC 연결 설정
 oleSapRfc = CREATE OLEObject
@@ -294,12 +321,32 @@ IF li_rc <> 0 THEN
     RETURN
 END IF
 
-messagebox("li_rc", li_rc)
+//Production server (PRD)
+oleSapRfc = oleSapRfc.connection // SAP CONNECTION OLE 사용 
 
-return
+/* 테스트서버 */
+oleSapRfc.ApplicationServer = "211.35.173.42" // SERVER IP -> 
+oleSapRfc.System = "YPP" // 시스템명
+oleSapRfc.SystemNumber = 00 // 디폴트 0 
+oleSapRfc.user = "IFGW01" // SAP 사용자명 (실제 sap id) 
+oleSapRfc.Password = "123456" // SAP 페스워드 (실제 password) 
+oleSapRfc.Client = "700" // CLIENT 번호 
+oleSapRfc.Language = "EN" // LANGUAGE "KO" 
+
+lb_result = oleSapRfc.logon(1, TRUE)
+
+messagebox("lb_result", string(lb_result))
+
+// 연결 실행
+If not(lb_result) Then // LOGON 
+   messagebox("SAP : ApplicationServer 로그인 에러 "," SAP ApplicationServer 로그인 에러입니다.") 
+   setpointer(ARROW!) 
+   RETURN
+End if 
+
 
 // RFC 함수 호출 (예: RFC_READ_TABLE)
-oleFunction = oleSapRfc.Add("RFC_READ_TABLE")
+oleFunction = oleSapRfc.Add("ZMM_WEIGH_002")
 //oleFunction.Exports("QUERY_TABLE") = "T001" // 테이블 이름 설정
 
 // 실행 및 결과 처리
@@ -350,21 +397,51 @@ end if
 //Production server (PRD)
 oleSapConn = oleSapConn.connection // SAP CONNECTION OLE 사용 
 
-/* 운영서버 */
+/* 테스트서버 */
 oleSapConn.ApplicationServer = "211.35.173.42" // SERVER IP -> 
+oleSapConn.System = "YPP" // 시스템명
 oleSapConn.SystemNumber = 00 // 디폴트 0 
 oleSapConn.user = "IFGW01" // SAP 사용자명 (실제 sap id) 
 oleSapConn.Password = "123456" // SAP 페스워드 (실제 password) 
 oleSapConn.Client = "700" // CLIENT 번호 
 oleSapConn.Language = "KO" // LANGUAGE "KO" 
-
+/*
+/* 운영서버 */
+oleSapConn.ApplicationServer = "211.35.173.43" // SERVER IP -> 
+oleSapConn.System = "YPP" // 시스템명
+oleSapConn.SystemNumber = 00 // 디폴트 0 
+oleSapConn.user = "12041" // SAP 사용자명 (실제 sap id) 
+oleSapConn.Password = "ypzinc02" // SAP 페스워드 (실제 password) 
+oleSapConn.Client = "100" // CLIENT 번호 
+oleSapConn.Language = "KO" // LANGUAGE "KO" 
+*/
 If oleSapConn.logon(1, TRUE) <> True Then // LOGON 
    messagebox("SAP : ApplicationServer 로그인 에러 "," SAP ApplicationServer 로그인 에러입니다.") 
    setpointer(ARROW!) 
+   RETURN
 End if 
 
+MessageBox("Success", "SAP ApplicationServer 로그인")
+
+TRY
+    oleSapFunc = oleSapConn.Add("ZMM_WEIGH_002")
+    IF IsNull(oleSapFunc) THEN
+        MessageBox("Error", "Function not found or not accessible!")
+        RETURN
+    END IF
+CATCH (Throwable e)
+    MessageBox("Error", e.GetMessage())
+	ChangeDirectory(gstr_userenv.path)
+	DESTROY oleSapConn
+	DESTROY oleSapFunc
+END TRY
+
+return
+
 // RFC 함수 호출 준비
-oleSapFunc = oleSapConn.Add("ZMM_WEIGH_001")  // 호출할 RFC 이름 입력
+oleSapFunc = oleSapConn.Add("ZMM_WEIGH_002")  // 호출할 RFC 이름 입력
+
+MessageBox("Success", "RFC 함수 로드 성공")
 
 IF IsNull(oleSapFunc) THEN
     MessageBox("Error", "RFC 함수 로드 실패")
@@ -390,9 +467,205 @@ MessageBox("Result", ls_result)
 
 // 종료 및 정리
 DESTROY oleSapConn
+DESTROY oleSapFunc
+
+ChangeDirectory(gstr_userenv.path)
 
 
 Return 
+
+end event
+
+type cb_2 from commandbutton within w_10020002
+integer x = 3031
+integer y = 120
+integer width = 297
+integer height = 96
+integer taborder = 20
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "접속"
+end type
+
+event clicked;Boolean lb_return = False
+Long ll_row = 9999
+String ls_aaa, ls_bbb, ls_ccc
+
+pblogin = create oleobject
+
+pblogin.ConnectToNewObject("SAP.Functions")
+
+pblogin.connection.ApplicationServer = "211.35.173.42" // SERVER IP -> 
+pblogin.connection.System = "YPP" // 시스템명
+pblogin.connection.SystemNumber = "00" // 디폴트 0 
+pblogin.connection.user = "IFGW01" // SAP 사용자명 (실제 sap id) 
+pblogin.connection.Password = "123456" // SAP 페스워드 (실제 password) 
+pblogin.connection.Client = "700" // CLIENT 번호 
+pblogin.connection.Language = "KO" // LANGUAGE "KO" 
+
+lb_return = pblogin.connection.logon(0, TRUE)
+
+if lb_return <> TRUE then
+	MessageBox("","R/3 접속 실패")
+	return
+end if
+
+TRY
+	ltable = pblogin.Add("ZMM_WEIGH_002")
+	
+	ltable.Exports("I_KUNNR").Value = "TestValue1"  // I_KUNNR 전달할 값
+     ltable.Exports("I_NAME1").Value = "TestValue2"  // I_NAME1 전달할 값
+	
+	ltablerows = ltable.Tables("I_PB")
+
+	IF ltable.CALL = True THEN
+		//접속을 종료하지 않고 계속 호출되면 결과는 레코드수가 누적 됨.
+		//MessageBox("","Rows = " + String(ltablerows.rowcount))
+		//MessageBox("","R/3 RFC 호출 성공")
+		
+		ls_aaa = ltable.imports("KUNNR").Value
+		
+		messagebox("ls_aaa", ls_aaa)
+		
+		pblogin.connection.logoff
+		Destroy pblogin
+		
+	else
+		MessageBox("","R/3 RFC 호출 실패")
+		pblogin.connection.logoff
+		Destroy pblogin
+		return
+	end if
+   
+CATCH (Throwable e)
+    MessageBox("Error", e.GetMessage())
+	ChangeDirectory(gstr_userenv.path)
+	
+	pblogin.connection.logoff
+	Destroy pblogin
+
+END TRY
+
+	
+
+
+
+
+end event
+
+type cb_4 from commandbutton within w_10020002
+integer x = 3342
+integer y = 124
+integer width = 270
+integer height = 92
+integer taborder = 30
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "종료"
+end type
+
+event clicked;pblogin.connection.logoff
+MessageBox("","R/3 접속 종료")
+Destroy pblogin
+
+end event
+
+type cb_5 from commandbutton within w_10020002
+integer x = 3625
+integer y = 124
+integer width = 270
+integer height = 92
+integer taborder = 40
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "호출"
+end type
+
+event clicked;Boolean lb_return = False
+Long ll_row = 9999
+
+ltable = pblogin.Add("ZMM_WEIGH_002")
+ltablerows = ltable.Tables("I_PB")
+IF ltable.CALL = True THEN
+	//접속을 종료하지 않고 계속 호출되면 결과는 레코드수가 누적 됨.
+	MessageBox("","Rows = " + String(ltablerows.rowcount))
+	return
+else
+	MessageBox("","R/3 RFC 호출 실패")
+	return
+end if
+
+end event
+
+type cb_6 from commandbutton within w_10020002
+integer x = 3909
+integer y = 124
+integer width = 270
+integer height = 84
+integer taborder = 20
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "입력"
+end type
+
+event clicked;Boolean lb_return = False
+Long ll_row = 9999
+String ls_string
+
+ltable = pblogin.Add("YQMB01_PB_01")
+
+//ltable.exports("Import_Val", "값")
+//ls_string = ltable.imports("Import_Val")
+
+//structobj = ltable.exports("test_struct") OR
+//FIELDOBJ = LTABLE.EXPORTS("test_struct1")
+//structobj.value("name") = "홍길동" or
+//fieldobj.value = "1234"
+
+ltablerows = ltable.Tables("I_PB")
+addrows = ltablerows.Rows.Add
+addrows.value("LTXTNO", "111111")
+addrows.value("TDFORMAT", "DD")
+addrows.value("SUBNR", "DDDDDDD")
+addrows.value("TDLINE", "DDDDD")
+addrows = ltablerows.Rows.Add
+addrows.value("LTXTNO", "22222")
+addrows.value("TDFORMAT", "EE")
+addrows.value("SUBNR", "EEEE")
+addrows.value("TDLINE", "EEEEEEE")
+addrows = ltablerows.Rows.Add
+addrows.value("LTXTNO", "333333")
+addrows.value("TDFORMAT", "FF")
+addrows.value("SUBNR", "FFFFFF")
+addrows.value("TDLINE", "FFFFFFF")
+
+IF ltable.CALL = True THEN
+MessageBox("","전송 Rows = " + String(ltablerows.rowcount))
+return
+else
+MessageBox("","R/3 RFC 전송 실패" + String(ltable.Exception))
+return
+end if
 
 end event
 
