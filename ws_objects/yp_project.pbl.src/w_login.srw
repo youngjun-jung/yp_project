@@ -52,6 +52,7 @@ dw_1.AcceptText()
 sUserid   = dw_1.GetItemString(1, 'userid'  )
 sPassword = dw_1.GetItemString(1, 'password')
 gstr_userenv.pwd = sPassword
+gstr_userenv.user_id = sUserid
 
 IF gf_chk_null(sUserid) THEN
 	MessageBox("확인", "아이디를 입력하십시오.")

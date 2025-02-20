@@ -61,6 +61,11 @@ sle_id.text = ClassName()
 
 end event
 
+event ue_excel;call super::ue_excel;boolean lb_return
+
+lb_return = gf_excel_proc(dw_1)
+end event
+
 type dw_1 from u_dw_grid within w_ancestor_05
 integer x = 215
 integer y = 692

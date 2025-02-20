@@ -1,18 +1,18 @@
-﻿$PBExportHeader$w_20010001.srw
+﻿$PBExportHeader$w_20010002.srw
 forward
-global type w_20010001 from w_ancestor_03
+global type w_20010002 from w_ancestor_03
 end type
 end forward
 
-global type w_20010001 from w_ancestor_03
+global type w_20010002 from w_ancestor_03
 end type
-global w_20010001 w_20010001
+global w_20010002 w_20010002
 
-on w_20010001.create
+on w_20010002.create
 call super::create
 end on
 
-on w_20010001.destroy
+on w_20010002.destroy
 call super::destroy
 end on
 
@@ -39,7 +39,8 @@ end event
 
 event ue_retrieve;call super::ue_retrieve;String ls_body, ls_result, ls_error, ls_frdate, ls_todate, ls_checkdate
 Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
-Long ll_usd, ll_jpy, ll_cny, ll_eur, ll_gbp, ll_aud
+String ls_corp_code, ls_lme_type, ls_gubun, ls_lmedate, ls_metal_code, ls_material_code
+Long ll_price, ll_price_3m
 Boolean lb_result
 JSONParser lnv_json
 
@@ -53,7 +54,7 @@ dw_1.Reset()
 
 ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate
 
-ls_result = gf_api_call("http://localhost:3000/api/exchange", 'GET', ls_body)
+ls_result = gf_api_call("http://localhost:3000/api/lme", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -98,23 +99,25 @@ for ll_index = 1 to ll_count
 
 	ll_child = lnv_json.getchilditem( ll_data_array, ll_index )  
 	
-	ls_checkdate = lnv_json.getitemString( ll_child, "checkdate")   
-	ll_usd =  lnv_json.getitemNumber( ll_child, "usd")
-	ll_jpy =  lnv_json.getitemNumber( ll_child, "jpy") 
-	ll_cny =  lnv_json.getitemNumber( ll_child, "cny") 
-	ll_eur =  lnv_json.getitemNumber( ll_child, "eur") 
-	ll_gbp =  lnv_json.getitemNumber( ll_child, "gbp") 
-	ll_aud =  lnv_json.getitemNumber( ll_child, "aud")
+	ls_corp_code = lnv_json.getitemString( ll_child, "corp_code")   
+	ls_lme_type = lnv_json.getitemString( ll_child, "lme_type")   
+	ls_gubun = lnv_json.getitemString( ll_child, "gubun")   
+	ls_lmedate = lnv_json.getitemString( ll_child, "lmedate")   
+	ls_metal_code = lnv_json.getitemString( ll_child, "metal_code")   
+	ls_material_code = lnv_json.getitemString( ll_child, "material_code")   
+	ll_price = lnv_json.getitemNumber( ll_child, "price")
+	ll_price_3m = lnv_json.getitemNumber( ll_child, "price_3m")
 	
 	ll_row = dw_1.insertrow(0)
 	
-	dw_1.object.checkdate[ll_row] = gf_date_format(ls_checkdate, '0')
-	dw_1.object.usd[ll_row] = ll_usd
-	dw_1.object.jpy[ll_row] = ll_jpy
-	dw_1.object.cny[ll_row] = ll_cny
-	dw_1.object.eur[ll_row] = ll_eur
-	dw_1.object.gbp[ll_row] = ll_gbp
-	dw_1.object.aud[ll_row] = ll_aud
+	dw_1.object.corp_code[ll_row] = ls_corp_code
+	dw_1.object.lme_type[ll_row] = ls_lme_type
+	dw_1.object.gubun[ll_row] = ls_gubun
+	dw_1.object.lmedate[ll_row] = gf_date_format(ls_lmedate, '0')
+	dw_1.object.metal_code[ll_row] = ls_metal_code
+	dw_1.object.material_code[ll_row] = ls_material_code
+	dw_1.object.price[ll_row] = ll_price
+	dw_1.object.price_3m[ll_row] = ll_price_3m
 
 next  
 		
@@ -126,21 +129,21 @@ dw_1.setredraw(true)
 RETURN true
 end event
 
-type dw_1 from w_ancestor_03`dw_1 within w_20010001
-string dataobject = "d_20010001"
+type dw_1 from w_ancestor_03`dw_1 within w_20010002
+string dataobject = "d_20010002"
 end type
 
 event dw_1::doubleclicked;call super::doubleclicked;EVENT ue_save()
 end event
 
-type sle_id from w_ancestor_03`sle_id within w_20010001
+type sle_id from w_ancestor_03`sle_id within w_20010002
 end type
 
-type dw_cdt from w_ancestor_03`dw_cdt within w_20010001
-string dataobject = "d_20010001_cdt"
+type dw_cdt from w_ancestor_03`dw_cdt within w_20010002
+string dataobject = "d_20010002_cdt"
 boolean righttoleft = true
 end type
 
-type st_1 from w_ancestor_03`st_1 within w_20010001
+type st_1 from w_ancestor_03`st_1 within w_20010002
 end type
 

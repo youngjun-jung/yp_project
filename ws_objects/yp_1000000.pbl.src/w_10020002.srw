@@ -493,7 +493,7 @@ string text = "접속"
 end type
 
 event clicked;Boolean lb_return = False
-Long ll_row = 9999
+Long ll_row = 9999, ll_inx
 String ls_aaa, ls_bbb, ls_ccc
 
 pblogin = create oleobject
@@ -507,6 +507,7 @@ pblogin.connection.user = "IFGW01" // SAP 사용자명 (실제 sap id)
 pblogin.connection.Password = "123456" // SAP 페스워드 (실제 password) 
 pblogin.connection.Client = "700" // CLIENT 번호 
 pblogin.connection.Language = "KO" // LANGUAGE "KO" 
+pblogin.Connection.CodePage = '8500' 
 
 lb_return = pblogin.connection.logon(0, TRUE)
 
@@ -518,20 +519,35 @@ end if
 TRY
 	ltable = pblogin.Add("ZMM_WEIGH_002")
 	
-	ltable.Exports("I_KUNNR").Value = "TestValue1"  // I_KUNNR 전달할 값
-     ltable.Exports("I_NAME1").Value = "TestValue2"  // I_NAME1 전달할 값
+	ltable.Exports("I_KUNNR").Value = ""  // I_KUNNR 전달할 값
+     ltable.Exports("I_NAME1").Value = ""  // I_NAME1 전달할 값
 	
-	ltablerows = ltable.Tables("I_PB")
+	//ltablerows = ltable.Tables("T_KUNNR")
 
 	IF ltable.CALL = True THEN
 		//접속을 종료하지 않고 계속 호출되면 결과는 레코드수가 누적 됨.
+		
+		ltablerows = ltable.Tables("T_KUNNR")
+		
 		//MessageBox("","Rows = " + String(ltablerows.rowcount))
 		//MessageBox("","R/3 RFC 호출 성공")
 		
-		ls_aaa = ltable.imports("KUNNR").Value
-		
-		messagebox("ls_aaa", ls_aaa)
-		
+		For ll_inx = 1 To 5 // ltablerows.RowCount()
+		  //	ll_row = dw_1.InsertRow(0)
+		  
+		  //	dw_1.SetItem(ll_row, "테이블의 필드명", String(ITAB.cell(ll_inx , '테이블의 필드명')))
+			  
+			 // ls_aaa = ltable.imports("KUNNR").Value
+			  
+			  ls_aaa = String(ltablerows.cell(ll_inx , 'KUNNR'))
+			  ls_bbb = String(ltablerows.cell(ll_inx , 'NAME1'))
+			  ls_ccc = String(ltablerows.cell(ll_inx , 'Z_FLAG'))
+			  
+			  messagebox("ls_aaa", ls_aaa)
+			  messagebox("ls_bbb", ls_bbb)
+			  messagebox("ls_ccc", ls_ccc)
+		Next
+
 		pblogin.connection.logoff
 		Destroy pblogin
 		

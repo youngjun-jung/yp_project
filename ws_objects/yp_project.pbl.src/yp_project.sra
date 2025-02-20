@@ -96,37 +96,15 @@ close(w_mainmdi)
 end event
 
 event systemerror;String ls_title, ls_message
-/*
-INSERT
-  INTO SYSTEM_ERROR
-  		(ERRNUMBER
-		,ERRMENU
-		,ERROBJECT
-		,ERREVENT
-		,ERRLINE
-		,ERRTEXT
-		,ERRDATE
-		,IP_ADDRESS)
-VALUES
-		(:Error.Number
-		,:Error.WindowMenu
-		,:Error.Object
-		,:Error.ObjectEvent
-		,:Error.Line
-		,:Error.Text
-		,SYSDATE
-		,SYS_CONTEXT('USERENV', 'IP_ADDRESS'))
- USING SQLCA;
- 
-IF SQLCA.SQLCode = -1 THEN
-	MessageBox("오류", SQLCA.SQLErrText)
-	ROLLBACK USING SQLCA;
-END IF
+String ls_body, ls_result, ls_error, ls_returncode, ls_errmenu, ls_errobject, ls_errevent, ls_errtext, ls_userid 
+Long ll_errnumber, ll_errline
+Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
+Boolean lb_result
+JSONParser lnv_json
 
-COMMIT USING SQLCA;
-*/
 ls_title = this.Displayname
 if Trim(ls_title) = '' or isnull(ls_title) then ls_title = Upper(ClassName())
+
 
 ls_message = '에러NO: ' + String(error.Number) + '~r~n'
 ls_message += '객 체: ' + error.object + + '~r~n'
@@ -135,5 +113,66 @@ ls_message += '위 치: ' + String(error.line) + + '~r~n'
 ls_message += '안내문: ' + error.text + + '~r~n'
 
 messagebox(ls_title, ls_message)
+
+ll_errnumber =  Error.Number
+ls_errmenu = Error.WindowMenu
+ls_errobject =  Error.Object
+ls_errevent = Error.ObjectEvent
+ll_errline =  Error.Line
+ls_errtext = Error.Text
+ls_userid = gstr_userenv.user_id
+
+ls_body = '{"errnumber": "' + string(ll_errnumber) + '", "errmenu": "' + ls_errmenu + '", "errobject": "'+ ls_errobject + '", "errevent": "'+ ls_errevent + '", "errline": "' + string(ll_errline) + '", "errtext": "' + ls_errtext + '", "userid": "' + ls_userid + '"}'  
+
+ls_result = gf_api_call("http://localhost:3000/api/error", 'POST', ls_body)
+
+IF ls_result = 'FAIL' or gf_chk_null(ls_result) THEN
+	RETURN 
+END IF;
+
+lb_result = gf_api_call_chk(ls_result, '0')
+
+IF NOT(lb_result) THEN	RETURN 
+
+lnv_json = CREATE JSONParser
+
+ls_error = lnv_json.LoadString(ls_result)
+
+if Len(ls_error) > 0 then
+    MessageBox("Error", "JSON 파싱 실패: " + ls_error)
+    Destroy lnv_json
+    RETURN 
+end if
+
+ll_root = lnv_json.getrootitem( )  
+
+if ll_root <= 0 then
+    MessageBox("Error", "루트 노드를 가져오지 못했습니다.")
+    Destroy lnv_json
+    RETURN 
+end if
+
+ll_count = lnv_json.getchildcount( ll_root )  
+
+for ll_index = 1 to ll_count    
+
+	ll_child = lnv_json.getchilditem( ll_root, ll_index )  
+	
+	ls_returncode = lnv_json.getitemstring( ll_child, "returncode")  
+
+next  
+		
+DESTROY lnv_json
+
+IF ls_returncode = '0000' THEN
+
+	CloseWithReturn(w_40010001_insert_pop, ls_returncode)
+	
+ELSE	
+	
+	MessageBox("실패", "오류 정보 저장에 실패 하였습니다.")
+	
+END IF
+
 end event
 

@@ -307,7 +307,7 @@ dw_1.SetRedraw(false)
 
 w_mainmdi.Width = 7195
 w_mainmdi.Height = 3800
-//windowstate = maximized!
+windowstate = maximized!
 
 //tv_menu.settransobject(sqlca)
 //tv_menu.retrieve('1' + gstr_userenv.grp)
