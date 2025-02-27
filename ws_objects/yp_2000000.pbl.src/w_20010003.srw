@@ -1,18 +1,18 @@
-﻿$PBExportHeader$w_20010002.srw
+﻿$PBExportHeader$w_20010003.srw
 forward
-global type w_20010002 from w_ancestor_03
+global type w_20010003 from w_ancestor_03
 end type
 end forward
 
-global type w_20010002 from w_ancestor_03
+global type w_20010003 from w_ancestor_03
 end type
-global w_20010002 w_20010002
+global w_20010003 w_20010003
 
-on w_20010002.create
+on w_20010003.create
 call super::create
 end on
 
-on w_20010002.destroy
+on w_20010003.destroy
 call super::destroy
 end on
 
@@ -37,24 +37,20 @@ dw_cdt.object.todate[1] = '20250102'
 
 end event
 
-event ue_retrieve;call super::ue_retrieve;String ls_body, ls_result, ls_error, ls_frdate, ls_todate, ls_checkdate
+event ue_retrieve;call super::ue_retrieve;String ls_body, ls_result, ls_error, ls_year
 Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
-String ls_corp_code, ls_lme_type, ls_gubun, ls_lmedate, ls_metal_code, ls_material_code
-Decimal ll_price, ll_price_3m
+Decimal ll_benchmark, ll_spot, ll_yp_tc
 Boolean lb_result
 JSONParser lnv_json
 
 dw_cdt.accepttext()
 
-ls_frdate = dw_cdt.object.frdate[1]
-ls_todate = dw_cdt.object.todate[1]
-
 // DataWindow 초기화
 dw_1.Reset()
 
-ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate
+ls_body = ''
 
-ls_result = gf_api_call("http://localhost:3000/api/lme", 'GET', ls_body)
+ls_result = gf_api_call("http://localhost:3000/api/tc", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -99,25 +95,17 @@ for ll_index = 1 to ll_count
 
 	ll_child = lnv_json.getchilditem( ll_data_array, ll_index )  
 	
-	ls_corp_code = lnv_json.getitemString( ll_child, "corp_code")   
-	ls_lme_type = lnv_json.getitemString( ll_child, "lme_type")   
-	ls_gubun = lnv_json.getitemString( ll_child, "gubun")   
-	ls_lmedate = lnv_json.getitemString( ll_child, "lmedate")   
-	ls_metal_code = lnv_json.getitemString( ll_child, "metal_code")   
-	ls_material_code = lnv_json.getitemString( ll_child, "material_code")   
-	ll_price = lnv_json.getitemNumber( ll_child, "price")
-	ll_price_3m = lnv_json.getitemNumber( ll_child, "price_3m")
+	ls_year = lnv_json.getitemString( ll_child, "year")   
+	ll_benchmark = lnv_json.getitemNumber( ll_child, "benchmark")
+	ll_spot = lnv_json.getitemNumber( ll_child, "spot")
+	ll_yp_tc = lnv_json.getitemNumber( ll_child, "yp_tc")
 	
 	ll_row = dw_1.insertrow(0)
 	
-	dw_1.object.corp_code[ll_row] = ls_corp_code
-	dw_1.object.lme_type[ll_row] = ls_lme_type
-	dw_1.object.gubun[ll_row] = ls_gubun
-	dw_1.object.lmedate[ll_row] = gf_date_format(ls_lmedate, '0')
-	dw_1.object.metal_code[ll_row] = ls_metal_code
-	dw_1.object.material_code[ll_row] = ls_material_code
-	dw_1.object.price[ll_row] = ll_price
-	dw_1.object.price_3m[ll_row] = ll_price_3m
+	dw_1.object.year[ll_row] = ls_year
+	dw_1.object.benchmark[ll_row] = ll_benchmark
+	dw_1.object.spot[ll_row] = ll_spot
+	dw_1.object.yp_tc[ll_row] = ll_yp_tc
 
 next  
 		
@@ -129,21 +117,21 @@ dw_1.setredraw(true)
 RETURN true
 end event
 
-type dw_1 from w_ancestor_03`dw_1 within w_20010002
-string dataobject = "d_20010002"
+type dw_1 from w_ancestor_03`dw_1 within w_20010003
+string dataobject = "d_20010003"
 end type
 
 event dw_1::doubleclicked;call super::doubleclicked;EVENT ue_save()
 end event
 
-type sle_id from w_ancestor_03`sle_id within w_20010002
+type sle_id from w_ancestor_03`sle_id within w_20010003
 end type
 
-type dw_cdt from w_ancestor_03`dw_cdt within w_20010002
-string dataobject = "d_20010002_cdt"
+type dw_cdt from w_ancestor_03`dw_cdt within w_20010003
+string dataobject = "d_20010003_cdt"
 boolean righttoleft = true
 end type
 
-type st_1 from w_ancestor_03`st_1 within w_20010002
+type st_1 from w_ancestor_03`st_1 within w_20010003
 end type
 

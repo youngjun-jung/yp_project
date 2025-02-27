@@ -197,20 +197,24 @@ for ll_index = 1 to ll_count
 	
 next  
 
-ll_row = dw_1.insertrow(0)
-		
-dw_1.object.name_1[ll_row] = '소계'
-dw_1.object.in_1[ll_row] = ll_sale_in
-dw_1.object.in_local_1[ll_row] = ll_sale_local
-dw_1.object.out_1[ll_row] = ll_sale_out
-dw_1.object.etc_1[ll_row] = ll_sale_etc 
-dw_1.object.sum_1[ll_row] = ll_sale_sum
-dw_1.object.name_2[ll_row] = '소계'
-dw_1.object.in_2[ll_row] = ll_income_in
-dw_1.object.in_local_2[ll_row] = ll_income_local  
-dw_1.object.out_2[ll_row] = ll_income_out
-dw_1.object.etc_2[ll_row] = ll_income_etc
-dw_1.object.sum_2[ll_row] = ll_income_sum
+if ll_count > 0 then
+
+	ll_row = dw_1.insertrow(0)
+			
+	dw_1.object.name_1[ll_row] = '소계'
+	dw_1.object.in_1[ll_row] = ll_sale_in
+	dw_1.object.in_local_1[ll_row] = ll_sale_local
+	dw_1.object.out_1[ll_row] = ll_sale_out
+	dw_1.object.etc_1[ll_row] = ll_sale_etc 
+	dw_1.object.sum_1[ll_row] = ll_sale_sum
+	dw_1.object.name_2[ll_row] = '소계'
+	dw_1.object.in_2[ll_row] = ll_income_in
+	dw_1.object.in_local_2[ll_row] = ll_income_local  
+	dw_1.object.out_2[ll_row] = ll_income_out
+	dw_1.object.etc_2[ll_row] = ll_income_etc
+	dw_1.object.sum_2[ll_row] = ll_income_sum
+	
+end if
 		
 DESTROY lnv_json
 

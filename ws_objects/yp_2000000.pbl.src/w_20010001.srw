@@ -39,7 +39,7 @@ end event
 
 event ue_retrieve;call super::ue_retrieve;String ls_body, ls_result, ls_error, ls_frdate, ls_todate, ls_checkdate
 Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
-Long ll_usd, ll_jpy, ll_cny, ll_eur, ll_gbp, ll_aud
+Decimal ll_usd, ll_jpy, ll_cny, ll_eur, ll_gbp, ll_aud
 Boolean lb_result
 JSONParser lnv_json
 

@@ -87,7 +87,7 @@ integer y = 496
 integer width = 5563
 integer height = 1992
 integer taborder = 20
-integer textsize = -14
+integer textsize = -10
 integer weight = 700
 fontcharset fontcharset = hangeul!
 fontpitch fontpitch = fixed!
@@ -110,9 +110,9 @@ end on
 
 type tabpage_1 from userobject within tab_1
 integer x = 18
-integer y = 124
+integer y = 100
 integer width = 5527
-integer height = 1852
+integer height = 1876
 string text = "none"
 long tabtextcolor = 33554432
 long tabbackcolor = 1073741824

@@ -14,6 +14,8 @@ type cb_5 from commandbutton within w_10020002
 end type
 type cb_6 from commandbutton within w_10020002
 end type
+type cb_7 from commandbutton within w_10020002
+end type
 end forward
 
 global type w_10020002 from w_ancestor_03
@@ -24,6 +26,7 @@ cb_2 cb_2
 cb_4 cb_4
 cb_5 cb_5
 cb_6 cb_6
+cb_7 cb_7
 end type
 global w_10020002 w_10020002
 
@@ -42,6 +45,7 @@ this.cb_2=create cb_2
 this.cb_4=create cb_4
 this.cb_5=create cb_5
 this.cb_6=create cb_6
+this.cb_7=create cb_7
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.cb_1
 this.Control[iCurrent+2]=this.cb_3
@@ -49,6 +53,7 @@ this.Control[iCurrent+3]=this.cb_2
 this.Control[iCurrent+4]=this.cb_4
 this.Control[iCurrent+5]=this.cb_5
 this.Control[iCurrent+6]=this.cb_6
+this.Control[iCurrent+7]=this.cb_7
 end on
 
 on w_10020002.destroy
@@ -59,6 +64,7 @@ destroy(this.cb_2)
 destroy(this.cb_4)
 destroy(this.cb_5)
 destroy(this.cb_6)
+destroy(this.cb_7)
 end on
 
 event open;call super::open;Date ld_today, ld_frdate
@@ -366,8 +372,8 @@ DESTROY oleTable
 end event
 
 type cb_3 from commandbutton within w_10020002
-integer x = 1431
-integer y = 88
+integer x = 2546
+integer y = 32
 integer width = 457
 integer height = 132
 integer taborder = 10
@@ -683,5 +689,24 @@ MessageBox("","R/3 RFC 전송 실패" + String(ltable.Exception))
 return
 end if
 
+end event
+
+type cb_7 from commandbutton within w_10020002
+integer x = 1472
+integer y = 96
+integer width = 457
+integer height = 132
+integer taborder = 20
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "none"
+end type
+
+event clicked;open(w_test_popup)
 end event
 
