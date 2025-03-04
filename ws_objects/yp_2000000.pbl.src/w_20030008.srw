@@ -6,10 +6,25 @@ type dw_1 from u_dw_grid within tabpage_1
 end type
 type tabpage_2 from userobject within tab_1
 end type
+type cb_2 from commandbutton within tabpage_2
+end type
+type cb_1 from commandbutton within tabpage_2
+end type
 type dw_2 from u_dw_grid within tabpage_2
 end type
+type st_3 from statictext within tabpage_2
+end type
+type st_2 from statictext within tabpage_2
+end type
+type dw_4 from u_dw_freeform within tabpage_2
+end type
 type tabpage_2 from userobject within tab_1
+cb_2 cb_2
+cb_1 cb_1
 dw_2 dw_2
+st_3 st_3
+st_2 st_2
+dw_4 dw_4
 end type
 type tabpage_3 from userobject within tab_1
 end type
@@ -26,6 +41,8 @@ global w_20030008 w_20030008
 
 forward prototypes
 public function boolean wf_retrieve_1 (string as_year)
+public function boolean wf_retrieve_21 (string as_year)
+public function boolean wf_retrieve_22 (string as_year)
 end prototypes
 
 public function boolean wf_retrieve_1 (string as_year);String ls_body, ls_result, ls_error, ls_userid
@@ -138,6 +155,175 @@ DESTROY lnv_json
 RETURN true
 end function
 
+public function boolean wf_retrieve_21 (string as_year);String ls_body, ls_result, ls_error, ls_userid
+Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
+Boolean lb_result
+String ls_year
+JSONParser lnv_json
+
+dw_cdt.accepttext()
+
+ls_body = 'year=' + as_year
+
+ls_result = gf_api_call("http://localhost:3000/api/zincconcentratemanual", 'GET', ls_body)	
+
+IF ls_result = 'FAIL' THEN
+	RETURN false
+END IF;
+
+lb_result = gf_api_call_chk(ls_result, '0')
+
+IF NOT(lb_result) THEN	RETURN false
+
+lnv_json = CREATE JSONParser
+
+ls_error = lnv_json.LoadString(ls_result)
+
+if Len(ls_error) > 0 then
+    MessageBox("Error", "JSON 파싱 실패: " + ls_error)
+    Destroy lnv_json
+    RETURN false
+end if
+
+ll_root = lnv_json.getrootitem( )  
+
+if ll_root <= 0 then
+    MessageBox("Error", "루트 노드를 가져오지 못했습니다.")
+    Destroy lnv_json
+    RETURN false
+end if
+
+// 'data' 배열 가져오기
+ll_data_array = lnv_json.GetItemArray(ll_root, "data")
+
+if ll_data_array < 0 then
+    MessageBox("Error", "'data' 배열을 찾을 수 없습니다.")
+    Destroy lnv_json
+    RETURN false
+end if
+
+//messagebox("ll_data_array", ll_data_array)
+
+ll_count = lnv_json.getchildcount( ll_data_array )  
+
+// DataWindow 초기화
+tab_1.tabpage_2.dw_2.Reset()
+
+for ll_index = 1 to ll_count    
+
+	ll_child = lnv_json.getchilditem( ll_data_array, ll_index )  
+	
+	ll_row = tab_1.tabpage_2.dw_2.insertrow(0)
+	
+	tab_1.tabpage_2.dw_2.object.gubun[ll_row] = lnv_json.getitemString( ll_child, "gubun")  
+	tab_1.tabpage_2.dw_2.object.measure[ll_row] = lnv_json.getitemString( ll_child, "measure")  
+	
+	tab_1.tabpage_2.dw_2.object.xa[ll_row] = lnv_json.getitemnumber( ll_child, "xa")  
+	tab_1.tabpage_2.dw_2.object.xb[ll_row] = lnv_json.getitemnumber( ll_child, "xb")  
+	tab_1.tabpage_2.dw_2.object.xc[ll_row] = lnv_json.getitemnumber( ll_child, "xc")  
+
+next  
+		
+DESTROY lnv_json
+
+RETURN true
+end function
+
+public function boolean wf_retrieve_22 (string as_year);String ls_body, ls_result, ls_error, ls_userid
+Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
+Boolean lb_result
+String ls_year
+JSONParser lnv_json
+
+dw_cdt.accepttext()
+
+ls_body = 'year=' + as_year
+
+ls_result = gf_api_call("http://localhost:3000/api/zincconcentrateunitcost", 'GET', ls_body)	
+
+IF ls_result = 'FAIL' THEN
+	RETURN false
+END IF;
+
+lb_result = gf_api_call_chk(ls_result, '0')
+
+IF NOT(lb_result) THEN	RETURN false
+
+lnv_json = CREATE JSONParser
+
+ls_error = lnv_json.LoadString(ls_result)
+
+if Len(ls_error) > 0 then
+    MessageBox("Error", "JSON 파싱 실패: " + ls_error)
+    Destroy lnv_json
+    RETURN false
+end if
+
+ll_root = lnv_json.getrootitem( )  
+
+if ll_root <= 0 then
+    MessageBox("Error", "루트 노드를 가져오지 못했습니다.")
+    Destroy lnv_json
+    RETURN false
+end if
+
+// 'data' 배열 가져오기
+ll_data_array = lnv_json.GetItemArray(ll_root, "data")
+
+if ll_data_array < 0 then
+    MessageBox("Error", "'data' 배열을 찾을 수 없습니다.")
+    Destroy lnv_json
+    RETURN false
+end if
+
+//messagebox("ll_data_array", ll_data_array)
+
+ll_count = lnv_json.getchildcount( ll_data_array )  
+
+// DataWindow 초기화
+tab_1.tabpage_2.dw_4.Reset()
+
+for ll_index = 1 to ll_count    
+
+	ll_child = lnv_json.getchilditem( ll_data_array, ll_index )  
+	
+	ll_row = 1 //tab_1.tabpage_2.dw_2.insertrow(0)
+	
+	tab_1.tabpage_2.dw_4.object.year[ll_row] = lnv_json.getitemString( ll_child, "year")  
+	
+	tab_1.tabpage_2.dw_4.object.xa[ll_row] = lnv_json.getitemnumber( ll_child, "month_01")  
+	tab_1.tabpage_2.dw_4.object.xb[ll_row] = lnv_json.getitemnumber( ll_child, "month_02")  
+	tab_1.tabpage_2.dw_4.object.xc[ll_row] = lnv_json.getitemnumber( ll_child, "month_03")
+	tab_1.tabpage_2.dw_4.object.xd[ll_row] = lnv_json.getitemnumber( ll_child, "month_04")
+	tab_1.tabpage_2.dw_4.object.xe[ll_row] = lnv_json.getitemnumber( ll_child, "month_05")
+	tab_1.tabpage_2.dw_4.object.xf[ll_row] = lnv_json.getitemnumber( ll_child, "month_06")
+	tab_1.tabpage_2.dw_4.object.xg[ll_row] = lnv_json.getitemnumber( ll_child, "month_07")
+	tab_1.tabpage_2.dw_4.object.xh[ll_row] = lnv_json.getitemnumber( ll_child, "month_08")
+	tab_1.tabpage_2.dw_4.object.xi[ll_row] = lnv_json.getitemnumber( ll_child, "month_09")
+	tab_1.tabpage_2.dw_4.object.xj[ll_row] = lnv_json.getitemnumber( ll_child, "month_10")
+	tab_1.tabpage_2.dw_4.object.xk[ll_row] = lnv_json.getitemnumber( ll_child, "month_11")
+	tab_1.tabpage_2.dw_4.object.xl[ll_row] = lnv_json.getitemnumber( ll_child, "month_12")
+	
+	tab_1.tabpage_2.dw_4.object.cost_01[ll_row] = lnv_json.getitemnumber( ll_child, "cost_01")  
+	tab_1.tabpage_2.dw_4.object.cost_02[ll_row] = lnv_json.getitemnumber( ll_child, "cost_02")  
+	tab_1.tabpage_2.dw_4.object.cost_03[ll_row] = lnv_json.getitemnumber( ll_child, "cost_03")
+	tab_1.tabpage_2.dw_4.object.cost_04[ll_row] = lnv_json.getitemnumber( ll_child, "cost_04")
+	tab_1.tabpage_2.dw_4.object.cost_05[ll_row] = lnv_json.getitemnumber( ll_child, "cost_05")
+	tab_1.tabpage_2.dw_4.object.cost_06[ll_row] = lnv_json.getitemnumber( ll_child, "cost_06")
+	tab_1.tabpage_2.dw_4.object.cost_07[ll_row] = lnv_json.getitemnumber( ll_child, "cost_07")
+	tab_1.tabpage_2.dw_4.object.cost_08[ll_row] = lnv_json.getitemnumber( ll_child, "cost_08")
+	tab_1.tabpage_2.dw_4.object.cost_09[ll_row] = lnv_json.getitemnumber( ll_child, "cost_09")
+	tab_1.tabpage_2.dw_4.object.cost_10[ll_row] = lnv_json.getitemnumber( ll_child, "cost_10")
+	tab_1.tabpage_2.dw_4.object.cost_11[ll_row] = lnv_json.getitemnumber( ll_child, "cost_11")
+	tab_1.tabpage_2.dw_4.object.cost_12[ll_row] = lnv_json.getitemnumber( ll_child, "cost_12")
+	
+next  
+		
+DESTROY lnv_json
+
+RETURN true
+end function
+
 on w_20030008.create
 int iCurrent
 call super::create
@@ -163,12 +349,13 @@ tab_1.Height = w_mainmdi.mdi_1.Height - 1200
 
 tab_1.tabpage_1.dw_1.Width = tab_1.Width - 60
 tab_1.tabpage_1.dw_1.Height = tab_1.Height -150
-
+/*
 tab_1.tabpage_2.dw_2.Width = tab_1.Width - 60
 tab_1.tabpage_2.dw_2.Height = tab_1.Height -150
 
 tab_1.tabpage_3.dw_3.Width = tab_1.Width - 60
 tab_1.tabpage_3.dw_3.Height = tab_1.Height -150
+*/
 
 end event
 
@@ -190,6 +377,11 @@ CHOOSE CASE ll_gettab
 	CASE 2
 		
 		dw_cdt.AcceptText()
+		
+		wf_retrieve_21(ls_year)
+		wf_retrieve_22(ls_year)
+		
+		tab_1.tabpage_2.dw_4.setredraw(true)
 		
 	CASE 3
 		
@@ -215,7 +407,7 @@ CHOOSE CASE ll_gettab
 	CASE 1
 		
 		gf_excel_proc(tab_1.tabpage_1.dw_1)
-		
+	/*	
 	CASE 2
 		
 		gf_excel_proc(tab_1.tabpage_2.dw_2)
@@ -223,7 +415,7 @@ CHOOSE CASE ll_gettab
 	CASE 3
 		
 		gf_excel_proc(tab_1.tabpage_3.dw_3)
-				
+	*/			
 END CHOOSE
 
 end event
@@ -303,33 +495,132 @@ string dataobject = "d_20030008_1"
 end type
 
 type tabpage_2 from userobject within tab_1
-boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 5527
 integer height = 1864
+string text = "기초자료"
 long tabtextcolor = 33554432
 long tabbackcolor = 1073741824
 string picturename = ".\res\Circle2.gif"
 long picturemaskcolor = 536870912
+cb_2 cb_2
+cb_1 cb_1
 dw_2 dw_2
+st_3 st_3
+st_2 st_2
+dw_4 dw_4
 end type
 
 on tabpage_2.create
+this.cb_2=create cb_2
+this.cb_1=create cb_1
 this.dw_2=create dw_2
-this.Control[]={this.dw_2}
+this.st_3=create st_3
+this.st_2=create st_2
+this.dw_4=create dw_4
+this.Control[]={this.cb_2,&
+this.cb_1,&
+this.dw_2,&
+this.st_3,&
+this.st_2,&
+this.dw_4}
 end on
 
 on tabpage_2.destroy
+destroy(this.cb_2)
+destroy(this.cb_1)
 destroy(this.dw_2)
+destroy(this.st_3)
+destroy(this.st_2)
+destroy(this.dw_4)
 end on
 
-type dw_2 from u_dw_grid within tabpage_2
-integer x = 5
-integer y = 16
-integer taborder = 20
-string dataobject = "d_20030006_2"
+type cb_2 from commandbutton within tabpage_2
+integer x = 3808
+integer y = 1564
+integer width = 517
+integer height = 92
+integer taborder = 40
+integer textsize = -10
+integer weight = 700
+fontcharset fontcharset = hangeul!
+fontpitch fontpitch = fixed!
+fontfamily fontfamily = modern!
+string facename = "굴림체"
+string text = "저장"
 end type
+
+type cb_1 from commandbutton within tabpage_2
+integer x = 1431
+integer y = 1572
+integer width = 517
+integer height = 92
+integer taborder = 30
+integer textsize = -10
+integer weight = 700
+fontcharset fontcharset = hangeul!
+fontpitch fontpitch = fixed!
+fontfamily fontfamily = modern!
+string facename = "굴림체"
+string text = "저장"
+end type
+
+type dw_2 from u_dw_grid within tabpage_2
+integer x = 37
+integer y = 156
+integer width = 1911
+integer height = 1384
+integer taborder = 20
+string dataobject = "d_20030008_21"
+end type
+
+type st_3 from statictext within tabpage_2
+integer x = 2199
+integer y = 48
+integer width = 745
+integer height = 52
+integer textsize = -10
+integer weight = 700
+fontcharset fontcharset = hangeul!
+fontpitch fontpitch = fixed!
+fontfamily fontfamily = modern!
+string facename = "굴림체"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "※ 월별 아연정광 단가"
+boolean focusrectangle = false
+end type
+
+type st_2 from statictext within tabpage_2
+integer x = 41
+integer y = 44
+integer width = 640
+integer height = 52
+integer textsize = -10
+integer weight = 700
+fontcharset fontcharset = hangeul!
+fontpitch fontpitch = fixed!
+fontfamily fontfamily = modern!
+string facename = "굴림체"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "※ 고품위 아연정광"
+boolean focusrectangle = false
+end type
+
+type dw_4 from u_dw_freeform within tabpage_2
+integer x = 2185
+integer y = 144
+integer width = 2171
+integer height = 1408
+integer taborder = 20
+string dataobject = "d_20030008_22"
+boolean border = false
+end type
+
+event constructor;call super::constructor;insertrow(0)
+end event
 
 type tabpage_3 from userobject within tab_1
 boolean visible = false
