@@ -31,7 +31,8 @@ IF FileExists(gstr_userenv.print_path) THEN
 
 END IF
 
-ll_return = as_dw.saveas(gstr_userenv.print_path, EXCEL5!, TRUE)
+//ll_return = as_dw.saveas(gstr_userenv.print_path, EXCEL5!, TRUE)
+ll_return = as_dw.saveas(gstr_userenv.print_path, EXCEL8!, TRUE)
 
 if ll_return <> 1 then
 	ChangeDirectory(gstr_userenv.path)
@@ -40,6 +41,8 @@ else
 	ChangeDirectory(gstr_userenv.path)
 	messagebox("Success", "파일 저장 성공")
 end if
+
+
 
 end function
 
