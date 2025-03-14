@@ -66,7 +66,7 @@ u_upgrade_res.of_Directory(ls_path + '\res')
 
 ls_body = 'fileid=%'
 
-ls_result = gf_api_call("http://localhost:3000/api/file", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/file", 'GET', ls_body)
 
 // messagebox("ls_result", ls_result)
 
@@ -275,7 +275,7 @@ String ls_url, ls_filePath, ls_fileName, ls_ver
 ls_fileName = as_filename
 
 // REST API URL 설정 (다운로드할 파일의 엔드포인트)
-ls_url = "http://localhost:3000/api/update?fileName=" + ls_fileName
+ls_url = "http://" + gl_api_ip + ":3000/api/update?fileName=" + ls_fileName
 
 // 로컬에 저장할 파일 경로
 //ls_filePath = "d:\downloads\" + ls_fileName
@@ -335,7 +335,7 @@ String ls_url, ls_filePath, ls_fileName, ls_ver
 ls_fileName = as_filename
 
 // REST API URL 설정 (다운로드할 파일의 엔드포인트)
-ls_url = "http://localhost:3000/api/update?fileName=" + ls_fileName
+ls_url = "http://" + gl_api_ip + ":3000/api/update?fileName=" + ls_fileName
 
 // 로컬에 저장할 파일 경로
 //ls_filePath = "d:\downloads\" + ls_fileName

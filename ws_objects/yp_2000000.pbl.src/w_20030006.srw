@@ -39,9 +39,9 @@ dw_cdt.accepttext()
 ls_body = 'year=' + as_year + '&gubun=1' 
 
 if as_gubun = '0' then
-	ls_result = gf_api_call("http://localhost:3000/api/eleccostt", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/eleccostt", 'GET', ls_body)	
 else
-	ls_result = gf_api_call("http://localhost:3000/api/eleccost", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/eleccost", 'GET', ls_body)	
 end if
 
 IF ls_result = 'FAIL' THEN

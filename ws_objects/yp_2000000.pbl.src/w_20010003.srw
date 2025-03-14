@@ -50,7 +50,7 @@ dw_1.Reset()
 
 ls_body = ''
 
-ls_result = gf_api_call("http://localhost:3000/api/tc", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/tc", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false

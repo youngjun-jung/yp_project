@@ -49,7 +49,7 @@ dw_1.SetRedraw(false)
 
 ls_body = 'id=' + '%'
 
-ls_result = gf_api_call("http://localhost:3000/api/group", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/group", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	CLOSE(this)
@@ -216,7 +216,7 @@ end if
 
 ls_body = '{"userid": "' + ls_userid + '", "username": "' + ls_username + '", "passwd": "' + ls_passwd + '", "groupid": "' + ls_groupid + '"}'  
 
-ls_result = gf_api_call("http://localhost:3000/api/user", 'POST', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/user", 'POST', ls_body)
 
 IF ls_result = 'FAIL' or gf_chk_null(ls_result) THEN
 	RETURN 

@@ -65,7 +65,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year
 
-ls_result = gf_api_call("http://localhost:3000/api/plug", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/plug", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -234,7 +234,6 @@ type sle_id from w_ancestor_08`sle_id within w_30010001
 end type
 
 type tab_1 from w_ancestor_08`tab_1 within w_30010001
-integer textsize = -10
 integer weight = 400
 tabpage_2 tabpage_2
 tabpage_3 tabpage_3

@@ -37,7 +37,7 @@ IF gf_chk_null(ls_userid) THEN	ls_userid = '%'
 
 ls_body = 'id=' + '%' + ls_userid + '%'
 
-ls_result = gf_api_call("http://localhost:3000/api/user", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/user", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -121,7 +121,7 @@ ls_body = ''
 
 IF Messagebox("확인",  "[ " + ls_userid + " ]  를 삭제하시겠습니까?", Question!, YesNo!, 1) = 2 THEN RETURN false 
 
-ls_result = gf_api_call("http://localhost:3000/api/user/" + ls_userid , 'DELETE', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/user/" + ls_userid , 'DELETE', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	MESSAGEBOX("Error", "DB 처리 실패")

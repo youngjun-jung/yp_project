@@ -55,7 +55,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year
 
-ls_result = gf_api_call("http://localhost:3000/api/zincconcentrate", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/zincconcentrate", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -165,7 +165,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year
 
-ls_result = gf_api_call("http://localhost:3000/api/zincconcentratemanual", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/zincconcentratemanual", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -239,7 +239,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year
 
-ls_result = gf_api_call("http://localhost:3000/api/zincconcentrateunitcost", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/zincconcentrateunitcost", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false

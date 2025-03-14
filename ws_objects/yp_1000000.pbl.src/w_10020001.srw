@@ -57,7 +57,7 @@ dw_1.Reset()
 
 ls_body = 'frdate=' + mid(ls_frdate, 1, 6) + '&todate=' + mid(ls_todate, 1, 6) + '&class_code=' + ls_class_code
 
-ls_result = gf_api_call("http://localhost:3000/api/cogm", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/cogm", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
