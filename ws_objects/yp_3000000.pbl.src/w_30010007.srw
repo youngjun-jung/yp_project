@@ -58,7 +58,7 @@ dw_1.Reset()
 
 ls_body = 'year=' + ls_year
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/distributiontable", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/distributiontable", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false

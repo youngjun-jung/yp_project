@@ -328,7 +328,7 @@ dw_menu.object.text01.Font.weight = 700
 
 ls_body = 'id=' + gstr_userenv.user_id
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/menu", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/menu", 'GET', ls_body)
 
 //messagebox("ls_result", ls_result)
 

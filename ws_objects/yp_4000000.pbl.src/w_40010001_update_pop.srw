@@ -51,7 +51,7 @@ IF gf_chk_null(ls_userid) THEN	RETURN
 
 ls_body = 'id=' + ls_userid
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/user", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/user", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN 
@@ -213,7 +213,7 @@ end if
 
 ls_body = '{"userid": "' + ls_userid + '", "passwd": "' + ls_passwd + '", "fail_cnt": "' + ls_fail_cnt + '"}'  
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/user", 'PATCH', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/user", 'PATCH', ls_body)
 
 IF ls_result = 'FAIL' or gf_chk_null(ls_result) THEN
 	RETURN 

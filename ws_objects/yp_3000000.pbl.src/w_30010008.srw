@@ -64,7 +64,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' + as_gubun 
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/submaterialaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/submaterialaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -151,7 +151,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' +  as_gubun
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/laborcostaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/laborcostaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -238,7 +238,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' +  as_gubun
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/eleccostaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/eleccostaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -325,7 +325,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' +  as_gubun
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpensesaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpensesaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -412,7 +412,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' +  as_gubun
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/repairexpensesaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/repairexpensesaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -499,7 +499,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year + '&gubun=' +  as_gubun
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/depreciationaia", 'GET', ls_body)	
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/depreciationaia", 'GET', ls_body)	
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
