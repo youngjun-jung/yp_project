@@ -121,7 +121,7 @@ DESTROY lnv_json
 RETURN true
 end function
 
-public function boolean wf_retrieve_2 (string as_year, string as_gubun);String ls_body, ls_result, ls_error, ls_userid
+public function boolean wf_retrieve_2 (string as_year, string as_gubun);String ls_body, ls_result, ls_error, ls_userid, ls_month
 Long ll_root, ll_data_array, ll_count, ll_index, ll_child, ll_row
 Boolean lb_result
 String ls_year
@@ -129,7 +129,17 @@ JSONParser lnv_json
 
 dw_cdt.accepttext()
 
-ls_body = 'year=' + as_year
+if as_gubun = '0' then
+
+	ls_month = '00'
+	
+else
+	
+	ls_month = dw_cdt.object.month[1]
+	
+end if
+
+ls_body = 'year=' + as_year + '&month=' + ls_month
 
 if as_gubun = '0' then
 	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/products_dtl", 'GET', ls_body)	
@@ -439,6 +449,7 @@ integer x = 5
 integer y = 16
 integer taborder = 10
 string dataobject = "d_30020001_2"
+boolean ib_selectrow = true
 end type
 
 event retrieveend;call super::retrieveend;long ll_value
@@ -470,6 +481,7 @@ END IF
 end event
 
 type tabpage_2 from userobject within tab_1
+boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 5527
@@ -499,6 +511,7 @@ string dataobject = "d_30020001_1"
 end type
 
 type tabpage_3 from userobject within tab_1
+boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 5527
