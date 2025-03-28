@@ -1,0 +1,5 @@
+﻿$PBExportHeader$nvo_process_popup.srs
+global type nvo_process_popup
+	nvo_pgb		lu_obj
+end type
+

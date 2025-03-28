@@ -26,6 +26,10 @@ Long gl_width, gl_height, gl_tv_width
 string gs_width_chk = '0'
 
 string gl_api_ip = '211.35.173.34'
+//string gl_api_ip = 'localhost'
+//string gl_api_port = '8080'
+string gl_api_port = '3000'
+string gs_api_key = 'YP'
 
 end variables
 
@@ -126,7 +130,7 @@ ls_userid = gstr_userenv.user_id
 
 ls_body = '{"errnumber": "' + string(ll_errnumber) + '", "errmenu": "' + ls_errmenu + '", "errobject": "'+ ls_errobject + '", "errevent": "'+ ls_errevent + '", "errline": "' + string(ll_errline) + '", "errtext": "' + ls_errtext + '", "userid": "' + ls_userid + '"}'  
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/error", 'POST', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/error", 'POST', ls_body)
 
 IF ls_result = 'FAIL' or gf_chk_null(ls_result) THEN
 	RETURN 

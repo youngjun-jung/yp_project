@@ -239,6 +239,8 @@ public subroutine wf_menu (string as_p_menuid);Long ll_row, i
 
 tv_menu.reset()
 
+tv_menu.visible = false
+
 for i = 1 to dw_1.rowcount()
 	
 	IF mid(gs_p_menuid[i], 1, 1) <> as_p_menuid THEN CONTINUE;
@@ -266,6 +268,8 @@ next
 
 tv_menu.Insertrow(1);
 tv_menu.deleterow(1);
+
+tv_menu.visible = true
 
 end subroutine
 
@@ -328,7 +332,7 @@ dw_menu.object.text01.Font.weight = 700
 
 ls_body = 'id=' + gstr_userenv.user_id
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/menu", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/menu", 'GET', ls_body)
 
 //messagebox("ls_result", ls_result)
 
@@ -608,7 +612,7 @@ CHOOSE CASE dwo.Name
 		tv_menu.settransobject(sqlca)
 		//tv_menu.retrieve('3' + gstr_userenv.user_id)
 			
-		tv_menu.object.t_1.text = '예산관리'
+		tv_menu.object.t_1.text = '사업계획'
 
 		tv_menu.object.t_1.Font.height = -14
 		

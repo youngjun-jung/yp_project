@@ -65,7 +65,7 @@ dw_cdt.accepttext()
 
 ls_body = 'year=' + as_year
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/plug", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/plug", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false

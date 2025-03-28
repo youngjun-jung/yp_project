@@ -41,9 +41,9 @@ dw_cdt.accepttext()
 ls_body = 'year=' + as_year + '&gubun=0' 
 
 if as_gubun = '0' then
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpensest", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpensest", 'GET', ls_body)	
 else
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpenses", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpenses", 'GET', ls_body)	
 end if
 
 IF ls_result = 'FAIL' THEN
@@ -145,9 +145,9 @@ dw_cdt.accepttext()
 ls_body = 'year=' + as_year + '&gubun=1' 
 
 if as_gubun = '0' then
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpensest", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpensest", 'GET', ls_body)	
 else
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpenses", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpenses", 'GET', ls_body)	
 end if
 
 IF ls_result = 'FAIL' THEN
@@ -252,9 +252,9 @@ if as_gubun = '0' then
 	
 	MESSAGEBOX("안내", "조회 불가 항목입니다.")
 	RETURN FALSE
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpensest", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpensest", 'GET', ls_body)	
 else
-	ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/otherexpenses", 'GET', ls_body)	
+	ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/otherexpenses", 'GET', ls_body)	
 end if
 
 IF ls_result = 'FAIL' THEN

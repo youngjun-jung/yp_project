@@ -49,7 +49,7 @@ ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate + '&mcode=' + ls_name
 
 //messagebox("ls_body", ls_body)
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/saleledger", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/saleledger", 'GET', ls_body)
 
 //messagebox("ls_result", ls_result)
 

@@ -22,7 +22,7 @@ lnv_rest = CREATE RESTClient
 ls_url = as_uri
 
 // 인증 키 설정 (Authorization 헤더에 추가)
-lnv_rest.SetRequestHeader("x-api-key", "YP")
+lnv_rest.SetRequestHeader("x-api-key", gs_api_key)
 
 // Content-Type 헤더 설정 (JSON 데이터 전송)
 lnv_rest.SetRequestHeader("Content-Type", "application/json")

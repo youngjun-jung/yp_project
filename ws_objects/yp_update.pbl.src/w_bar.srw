@@ -431,7 +431,11 @@ String ls_url, ls_filePath, ls_fileName, ls_ver
 ls_fileName = as_filename
 
 // REST API URL 설정 (다운로드할 파일의 엔드포인트)
+//<<<<<<< HEAD
 ls_url = as_apiUrl + "/api/update?fileName=" + ls_fileName
+//=======
+ls_url = "http://" + gl_api_ip + ":" + gl_api_port + "/api/update?fileName=" + ls_fileName
+//>>>>>>> master
 
 // 로컬에 저장할 파일 경로
 //ls_filePath = "d:\downloads\" + ls_fileName
@@ -491,7 +495,11 @@ String ls_url, ls_filePath, ls_fileName, ls_ver
 
 
 // REST API URL 설정 (다운로드할 파일의 엔드포인트)
+//<<<<<<< HEAD
 ls_url = as_apiUrl + "/api/program/update/" + as_gubun + "?ip=" + as_ip + "&userid=" + as_userid + "&fileid=" + as_filename + "&filever=" + as_filever
+//=======
+ls_url = "http://" + gl_api_ip + ":" + gl_api_port + "/api/update?fileName=" + ls_fileName
+//>>>>>>> master
 
 // 로컬에 저장할 파일 경로
 //ls_filePath = "d:\downloads\" + ls_fileName

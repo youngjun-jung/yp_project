@@ -1,23 +1,23 @@
-﻿$PBExportHeader$w_30010005.srw
+﻿$PBExportHeader$w_30010009.srw
 forward
-global type w_30010005 from w_ancestor_03
+global type w_30010009 from w_ancestor_03
 end type
 end forward
 
-global type w_30010005 from w_ancestor_03
+global type w_30010009 from w_ancestor_03
 integer height = 3024
 end type
-global w_30010005 w_30010005
+global w_30010009 w_30010009
 
 type variables
 Long il_chk_cnt
 end variables
 
-on w_30010005.create
+on w_30010009.create
 call super::create
 end on
 
-on w_30010005.destroy
+on w_30010009.destroy
 call super::destroy
 end on
 
@@ -58,7 +58,7 @@ dw_1.Reset()
 
 ls_body = 'year=' + ls_year
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/selfconsumption", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/productioninputs", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -105,28 +105,33 @@ for ll_index = 1 to ll_count
 	
 	ll_row = dw_1.insertrow(0)
 
- 	//dw_1.object.num[ll_row] = ll_row //lnv_json.getitemnumber( ll_child, "num")  
-	dw_1.object.lname[ll_row] = lnv_json.getitemstring( ll_child, "lname")  
-	dw_1.object.mname[ll_row] = lnv_json.getitemstring( ll_child, "mname")  
+ 	//dw_1.object.num[ll_row] = ll_row
+	dw_1.object.year[ll_row] = lnv_json.getitemstring( ll_child, "year")  
+	dw_1.object.lname[ll_row] = lnv_json.getitemstring( ll_child, "lname") 
+	dw_1.object.mname[ll_row] = lnv_json.getitemstring( ll_child, "mname") 
+	dw_1.object.sname[ll_row] = lnv_json.getitemstring( ll_child, "sname")  
 	dw_1.object.measure[ll_row] = lnv_json.getitemstring( ll_child, "measure")  
-	dw_1.object.month_01[ll_row] = lnv_json.getitemnumber( ll_child, "month_01")  
-	dw_1.object.month_02[ll_row] = lnv_json.getitemnumber( ll_child, "month_02")  
-	dw_1.object.month_03[ll_row] = lnv_json.getitemnumber( ll_child, "month_03")  
-	dw_1.object.month_1[ll_row] = lnv_json.getitemnumber( ll_child, "month_1")  
-	dw_1.object.month_04[ll_row] = lnv_json.getitemnumber( ll_child, "month_04")  
-	dw_1.object.month_05[ll_row] = lnv_json.getitemnumber( ll_child, "month_05")  
-	dw_1.object.month_06[ll_row] = lnv_json.getitemnumber( ll_child, "month_06")  
-	dw_1.object.month_2[ll_row] = lnv_json.getitemnumber( ll_child, "month_2") 
-	dw_1.object.month_07[ll_row] = lnv_json.getitemnumber( ll_child, "month_07")  
-	dw_1.object.month_08[ll_row] = lnv_json.getitemnumber( ll_child, "month_08")  
-	dw_1.object.month_09[ll_row] = lnv_json.getitemnumber( ll_child, "month_09")  
-	dw_1.object.month_3[ll_row] = lnv_json.getitemnumber( ll_child, "month_3") 
-	dw_1.object.month_10[ll_row] = lnv_json.getitemnumber( ll_child, "month_10")  
-	dw_1.object.month_11[ll_row] = lnv_json.getitemnumber( ll_child, "month_11")  
-	dw_1.object.month_12[ll_row] = lnv_json.getitemnumber( ll_child, "month_12")   
-	dw_1.object.month_4[ll_row] = lnv_json.getitemnumber( ll_child, "month_4") 
+	dw_1.object.measure_won[ll_row] = lnv_json.getitemnumber( ll_child, "weight")  
+	dw_1.object.unit_cost[ll_row] = lnv_json.getitemnumber( ll_child, "unit_cost")  
+	
 	dw_1.object.month_0[ll_row] = lnv_json.getitemnumber( ll_child, "month_0") 
-
+	dw_1.object.month_01[ll_row] = lnv_json.getitemnumber( ll_child, "month_01")
+	dw_1.object.month_02[ll_row] = lnv_json.getitemnumber( ll_child, "month_02")
+	dw_1.object.month_03[ll_row] = lnv_json.getitemnumber( ll_child, "month_03")
+	dw_1.object.month_1[ll_row] = lnv_json.getitemnumber( ll_child, "month_1")
+	dw_1.object.month_04[ll_row] = lnv_json.getitemnumber( ll_child, "month_04")
+	dw_1.object.month_05[ll_row] = lnv_json.getitemnumber( ll_child, "month_05")
+	dw_1.object.month_06[ll_row] = lnv_json.getitemnumber( ll_child, "month_06")
+	dw_1.object.month_2[ll_row] = lnv_json.getitemnumber( ll_child, "month_2")
+	dw_1.object.month_07[ll_row] = lnv_json.getitemnumber( ll_child, "month_07")
+	dw_1.object.month_08[ll_row] = lnv_json.getitemnumber( ll_child, "month_08")
+	dw_1.object.month_09[ll_row] = lnv_json.getitemnumber( ll_child, "month_09")
+	dw_1.object.month_3[ll_row] = lnv_json.getitemnumber( ll_child, "month_3")
+	dw_1.object.month_10[ll_row] = lnv_json.getitemnumber( ll_child, "month_10")
+	dw_1.object.month_11[ll_row] = lnv_json.getitemnumber( ll_child, "month_11")
+	dw_1.object.month_12[ll_row] = lnv_json.getitemnumber( ll_child, "month_12")
+	dw_1.object.month_4[ll_row] = lnv_json.getitemnumber( ll_child, "month_4")
+ 
 next  
 
 DESTROY lnv_json
@@ -137,33 +142,17 @@ dw_1.setredraw(true)
 RETURN true
 end event
 
-type dw_1 from w_ancestor_03`dw_1 within w_30010005
-string dataobject = "d_30010005"
+type dw_1 from w_ancestor_03`dw_1 within w_30010009
+string dataobject = "d_30010009"
 end type
 
-event dw_1::doubleclicked;call super::doubleclicked;str_popup lstr_popup
-
-if row < 1 then return
-
-lstr_popup.rvalue[1] = gf_date_format(dw_1.object.frdate[row], '1')
-lstr_popup.rvalue[2] = gf_date_format(dw_1.object.todate[row], '1')
-lstr_popup.rvalue[3] = dw_1.object.mcode[row]
-lstr_popup.rvalue[4] = dw_1.object.name_1[row]
-
-if gf_chk_null(lstr_popup.rvalue[3]) then return
-
-openwithparm(w_10010001_pop, lstr_popup)
-
-
-end event
-
-type sle_id from w_ancestor_03`sle_id within w_30010005
+type sle_id from w_ancestor_03`sle_id within w_30010009
 integer x = 238
 integer y = 2592
 end type
 
-type dw_cdt from w_ancestor_03`dw_cdt within w_30010005
-string dataobject = "d_30010005_cdt"
+type dw_cdt from w_ancestor_03`dw_cdt within w_30010009
+string dataobject = "d_30010009_cdt"
 end type
 
 event dw_cdt::ue_dddw_retrieve;call super::ue_dddw_retrieve;Long i
@@ -180,6 +169,6 @@ CHOOSE CASE column
 END CHOOSE
 end event
 
-type st_1 from w_ancestor_03`st_1 within w_30010005
+type st_1 from w_ancestor_03`st_1 within w_30010009
 end type
 

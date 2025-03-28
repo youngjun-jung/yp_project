@@ -70,7 +70,7 @@ END IF
   
 ls_body = '{"id": "' + sUserid + '", "pw": "' + sPassword + '"}'  
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/login", 'POST', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/login", 'POST', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN FALSE

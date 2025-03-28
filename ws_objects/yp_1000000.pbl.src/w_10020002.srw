@@ -108,7 +108,7 @@ dw_1.Reset()
 
 ls_body = 'frdate=' + ls_frdate + '&todate=' + ls_todate
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/sale", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/sale", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false

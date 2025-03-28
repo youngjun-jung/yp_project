@@ -58,7 +58,7 @@ dw_1.Reset()
 
 ls_body = 'year=' + ls_year
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":3000/api/ref2", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/ref2", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -139,22 +139,6 @@ end event
 type dw_1 from w_ancestor_03`dw_1 within w_30010003
 string dataobject = "d_30010003"
 end type
-
-event dw_1::doubleclicked;call super::doubleclicked;str_popup lstr_popup
-
-if row < 1 then return
-
-lstr_popup.rvalue[1] = gf_date_format(dw_1.object.frdate[row], '1')
-lstr_popup.rvalue[2] = gf_date_format(dw_1.object.todate[row], '1')
-lstr_popup.rvalue[3] = dw_1.object.mcode[row]
-lstr_popup.rvalue[4] = dw_1.object.name_1[row]
-
-if gf_chk_null(lstr_popup.rvalue[3]) then return
-
-openwithparm(w_10010001_pop, lstr_popup)
-
-
-end event
 
 type sle_id from w_ancestor_03`sle_id within w_30010003
 integer x = 238

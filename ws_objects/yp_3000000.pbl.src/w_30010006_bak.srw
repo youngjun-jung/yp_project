@@ -1,23 +1,23 @@
-﻿$PBExportHeader$w_30010002.srw
+﻿$PBExportHeader$w_30010006_bak.srw
 forward
-global type w_30010002 from w_ancestor_03
+global type w_30010006_bak from w_ancestor_03
 end type
 end forward
 
-global type w_30010002 from w_ancestor_03
+global type w_30010006_bak from w_ancestor_03
 integer height = 3024
 end type
-global w_30010002 w_30010002
+global w_30010006_bak w_30010006_bak
 
 type variables
 Long il_chk_cnt
 end variables
 
-on w_30010002.create
+on w_30010006_bak.create
 call super::create
 end on
 
-on w_30010002.destroy
+on w_30010006_bak.destroy
 call super::destroy
 end on
 
@@ -58,7 +58,7 @@ dw_1.Reset()
 
 ls_body = 'year=' + ls_year
 
-ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/ref1", 'GET', ls_body)
+ls_result = gf_api_call("http://" + gl_api_ip + ":" + gl_api_port + "/api/zincauto", 'GET', ls_body)
 
 IF ls_result = 'FAIL' THEN
 	RETURN false
@@ -105,26 +105,27 @@ for ll_index = 1 to ll_count
 	
 	ll_row = dw_1.insertrow(0)
 
- 	dw_1.object.num[ll_row] = ll_row //lnv_json.getitemnumber( ll_child, "num")  
-	dw_1.object.xa[ll_row] = lnv_json.getitemstring( ll_child, "xa")  
-	dw_1.object.xb[ll_row] = lnv_json.getitemstring( ll_child, "xb")  
-	dw_1.object.xc[ll_row] = lnv_json.getitemstring( ll_child, "xc")  
-	dw_1.object.xd[ll_row] = lnv_json.getitemnumber( ll_child, "xd")  
-	dw_1.object.xe[ll_row] = lnv_json.getitemnumber( ll_child, "xe")  
-	dw_1.object.xf[ll_row] = lnv_json.getitemnumber( ll_child, "xf")  
-	dw_1.object.xg[ll_row] = lnv_json.getitemnumber( ll_child, "xg")  
-	dw_1.object.xh[ll_row] = lnv_json.getitemnumber( ll_child, "xh")  
-	dw_1.object.xi[ll_row] = lnv_json.getitemnumber( ll_child, "xi")  
-	dw_1.object.xj[ll_row] = lnv_json.getitemnumber( ll_child, "xj")  
-	dw_1.object.xk[ll_row] = lnv_json.getitemnumber( ll_child, "xk")  
-	dw_1.object.xl[ll_row] = lnv_json.getitemnumber( ll_child, "xl")  
-	dw_1.object.xm[ll_row] = lnv_json.getitemnumber( ll_child, "xm")  
-	dw_1.object.xn[ll_row] = lnv_json.getitemnumber( ll_child, "xn")  
-	dw_1.object.xo[ll_row] = lnv_json.getitemnumber( ll_child, "xo")  
-	dw_1.object.xp[ll_row] = lnv_json.getitemnumber( ll_child, "xp")  
-	dw_1.object.xq[ll_row] = lnv_json.getitemnumber( ll_child, "xq")  
-	dw_1.object.xr[ll_row] = lnv_json.getitemnumber( ll_child, "xr")  
-	dw_1.object.xs[ll_row] = lnv_json.getitemnumber( ll_child, "xs")    
+ 	//dw_1.object.num[ll_row] = ll_row //lnv_json.getitemnumber( ll_child, "num")  
+	dw_1.object.lname[ll_row] = lnv_json.getitemstring( ll_child, "lname")  
+	dw_1.object.mname[ll_row] = lnv_json.getitemstring( ll_child, "mname")  
+	dw_1.object.sname[ll_row] = lnv_json.getitemstring( ll_child, "sname")  
+	dw_1.object.month_01[ll_row] = lnv_json.getitemnumber( ll_child, "month_01")  
+	dw_1.object.month_02[ll_row] = lnv_json.getitemnumber( ll_child, "month_02")  
+	dw_1.object.month_03[ll_row] = lnv_json.getitemnumber( ll_child, "month_03")  
+	dw_1.object.month_1[ll_row] = lnv_json.getitemnumber( ll_child, "month_1")  
+	dw_1.object.month_04[ll_row] = lnv_json.getitemnumber( ll_child, "month_04")  
+	dw_1.object.month_05[ll_row] = lnv_json.getitemnumber( ll_child, "month_05")  
+	dw_1.object.month_06[ll_row] = lnv_json.getitemnumber( ll_child, "month_06")  
+	dw_1.object.month_2[ll_row] = lnv_json.getitemnumber( ll_child, "month_2") 
+	dw_1.object.month_07[ll_row] = lnv_json.getitemnumber( ll_child, "month_07")  
+	dw_1.object.month_08[ll_row] = lnv_json.getitemnumber( ll_child, "month_08")  
+	dw_1.object.month_09[ll_row] = lnv_json.getitemnumber( ll_child, "month_09")  
+	dw_1.object.month_3[ll_row] = lnv_json.getitemnumber( ll_child, "month_3") 
+	dw_1.object.month_10[ll_row] = lnv_json.getitemnumber( ll_child, "month_10")  
+	dw_1.object.month_11[ll_row] = lnv_json.getitemnumber( ll_child, "month_11")  
+	dw_1.object.month_12[ll_row] = lnv_json.getitemnumber( ll_child, "month_12")   
+	dw_1.object.month_4[ll_row] = lnv_json.getitemnumber( ll_child, "month_4") 
+	dw_1.object.month_0[ll_row] = lnv_json.getitemnumber( ll_child, "month_0") 
 
 next  
 
@@ -136,17 +137,17 @@ dw_1.setredraw(true)
 RETURN true
 end event
 
-type dw_1 from w_ancestor_03`dw_1 within w_30010002
-string dataobject = "d_30010002"
+type dw_1 from w_ancestor_03`dw_1 within w_30010006_bak
+string dataobject = "d_30010006"
 end type
 
-type sle_id from w_ancestor_03`sle_id within w_30010002
+type sle_id from w_ancestor_03`sle_id within w_30010006_bak
 integer x = 238
 integer y = 2592
 end type
 
-type dw_cdt from w_ancestor_03`dw_cdt within w_30010002
-string dataobject = "d_30010002_cdt"
+type dw_cdt from w_ancestor_03`dw_cdt within w_30010006_bak
+string dataobject = "d_30010006_cdt"
 end type
 
 event dw_cdt::ue_dddw_retrieve;call super::ue_dddw_retrieve;Long i
@@ -163,6 +164,6 @@ CHOOSE CASE column
 END CHOOSE
 end event
 
-type st_1 from w_ancestor_03`st_1 within w_30010002
+type st_1 from w_ancestor_03`st_1 within w_30010006_bak
 end type
 
