@@ -459,6 +459,18 @@ label: 항목에 표시될 텍스트.
 pictureindex: 항목과 연결된 이미지 인덱스. 이미지가 없으면 0.
 */
 
+/* Loading popup NVO 객체 관련 */
+gnv_result = SharedObjectRegister("nvo_loading", "loading_instance")
+
+If gnv_result <> Success! Then
+    MessageBox("오류", "공유 객체 등록 실패: " + String(gnv_result))
+End If
+
+gnv_result = SharedObjectGet("loading_instance", gnv_loading)
+
+If gnv_result <> Success! Then
+    MessageBox("오류", "공유 객체 로드 실패: " + String(gnv_result))
+End If
 
 
 
@@ -467,6 +479,9 @@ end event
 
 event resize;
 event ue_resize()
+end event
+
+event close;	DESTROY gnv_loading
 end event
 
 type mdi_1 from mdiclient within w_mainmdi

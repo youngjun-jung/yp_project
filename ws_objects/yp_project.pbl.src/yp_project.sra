@@ -25,12 +25,15 @@ Long gs_dddw_cnt
 Long gl_width, gl_height, gl_tv_width
 string gs_width_chk = '0'
 
-string gl_api_ip = '211.35.173.34'
-//string gl_api_ip = 'localhost'
+//string gl_api_ip = '211.35.173.34'
+string gl_api_ip = 'localhost'
 //string gl_api_port = '8080'
 string gl_api_port = '3000'
 string gs_api_key = 'YP'
 
+// Loading popup
+nvo_loading gnv_loading
+ErrorReturn gnv_result
 end variables
 
 global type yp_project from application

@@ -328,6 +328,9 @@ ls_gubun = dw_cdt.object.gubun[1]
 
 ll_gettab = tab_1.SelectedTab
 
+// 로딩 페이지 노출
+gnv_loading.PostEvent("ue_show_loading")
+		
 CHOOSE CASE ll_gettab
 		
 	CASE 1
@@ -353,6 +356,9 @@ CHOOSE CASE ll_gettab
 		wf_retrieve_1(ls_year, ls_gubun)	
 				
 END CHOOSE
+
+// 로딩 페이지 숨김
+gnv_loading.PostEvent("ue_hide_loading")
 
 RETURN TRUE
 end event
