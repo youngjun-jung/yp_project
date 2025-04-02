@@ -27,8 +27,8 @@ string gs_width_chk = '0'
 
 //string gl_api_ip = '211.35.173.34'
 string gl_api_ip = 'localhost'
-string gl_api_port = '8080'
-//string gl_api_port = '3000'
+//string gl_api_port = '8080'
+string gl_api_port = '3000'
 string gs_api_key = 'YP'
 
 end variables
