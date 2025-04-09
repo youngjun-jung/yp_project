@@ -51,3 +51,12 @@ ORCLPDB2 =
       (SERVICE_NAME = orclpdb)
     )
   )
+
+yp =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 211.35.173.11)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCL)
+    )
+  )
