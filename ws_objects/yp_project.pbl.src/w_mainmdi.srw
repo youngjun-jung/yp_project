@@ -307,6 +307,19 @@ Long ll_root, ll_count, ll_index, ll_child, i, ll_row, ll_data_array
 Boolean lb_result
 JSONParser lnv_json
 
+/* Loading popup NVO 객체 관련 */
+gnv_result = SharedObjectRegister("nvo_loading", "loading_instance")
+
+If gnv_result <> Success! Then
+    MessageBox("오류", "공유 객체 등록 실패: " + String(gnv_result))
+End If
+
+gnv_result = SharedObjectGet("loading_instance", gnv_loading)
+
+If gnv_result <> Success! Then
+    MessageBox("오류", "공유 객체 로드 실패: " + String(gnv_result))
+End If
+
 dw_1.SetRedraw(false)
 
 w_mainmdi.Width = 7195

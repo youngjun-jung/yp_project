@@ -810,7 +810,7 @@ type dw_2 from u_dw_grid within tabpage_2
 integer x = 5
 integer y = 16
 integer taborder = 20
-string dataobject = "d_30010008_2"
+string dataobject = "d_30010008_1"
 end type
 
 type tabpage_3 from userobject within tab_1
@@ -839,7 +839,7 @@ type dw_3 from u_dw_grid within tabpage_3
 integer x = 5
 integer y = 16
 integer taborder = 20
-string dataobject = "d_30010008_3"
+string dataobject = "d_30010008_1"
 end type
 
 type tabpage_4 from userobject within tab_1
@@ -868,7 +868,7 @@ type dw_4 from u_dw_grid within tabpage_4
 integer x = 5
 integer y = 16
 integer taborder = 20
-string dataobject = "d_30010008_4"
+string dataobject = "d_30010008_1"
 end type
 
 type tabpage_5 from userobject within tab_1
@@ -897,7 +897,7 @@ type dw_5 from u_dw_grid within tabpage_5
 integer x = 5
 integer y = 16
 integer taborder = 20
-string dataobject = "d_30010008_5"
+string dataobject = "d_30010008_1"
 end type
 
 type tabpage_6 from userobject within tab_1
@@ -926,6 +926,6 @@ type dw_6 from u_dw_grid within tabpage_6
 integer x = 5
 integer y = 16
 integer taborder = 20
-string dataobject = "d_30010008_6"
+string dataobject = "d_30010008_1"
 end type
 
